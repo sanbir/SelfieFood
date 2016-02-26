@@ -13,7 +13,7 @@ namespace SelfieFood.Web.Controllers
     {
         public ResturantsResponse PostPhoto()
         {
-
+            return null;
         }
 
     }

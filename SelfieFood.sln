@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfieFood.Common", "Selfie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfieFood.App.WindowsPhone", "SelfieFood.App\SelfieFood.App.WindowsPhone\SelfieFood.App.WindowsPhone.csproj", "{A2DFEE33-B534-4BE8-B94A-9D31AE9B6B90}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{E37C5EE6-944A-480D-A18D-AC61086B24E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfieFood.HowOldApi", "SelfieFood.HowOldApi\SelfieFood.HowOldApi.csproj", "{709E8FC8-E942-48F5-92D5-B506AE3FDFBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{45CCC370-3AC8-44FF-9C81-9A601BE78521}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,8 +59,28 @@ Global
 		{A2DFEE33-B534-4BE8-B94A-9D31AE9B6B90}.Release|x86.ActiveCfg = Release|x86
 		{A2DFEE33-B534-4BE8-B94A-9D31AE9B6B90}.Release|x86.Build.0 = Release|x86
 		{A2DFEE33-B534-4BE8-B94A-9D31AE9B6B90}.Release|x86.Deploy.0 = Release|x86
+		{709E8FC8-E942-48F5-92D5-B506AE3FDFBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{709E8FC8-E942-48F5-92D5-B506AE3FDFBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{709E8FC8-E942-48F5-92D5-B506AE3FDFBB}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{709E8FC8-E942-48F5-92D5-B506AE3FDFBB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{709E8FC8-E942-48F5-92D5-B506AE3FDFBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{709E8FC8-E942-48F5-92D5-B506AE3FDFBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{709E8FC8-E942-48F5-92D5-B506AE3FDFBB}.Release|ARM.ActiveCfg = Release|Any CPU
+		{709E8FC8-E942-48F5-92D5-B506AE3FDFBB}.Release|x86.ActiveCfg = Release|Any CPU
+		{45CCC370-3AC8-44FF-9C81-9A601BE78521}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45CCC370-3AC8-44FF-9C81-9A601BE78521}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45CCC370-3AC8-44FF-9C81-9A601BE78521}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{45CCC370-3AC8-44FF-9C81-9A601BE78521}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{45CCC370-3AC8-44FF-9C81-9A601BE78521}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45CCC370-3AC8-44FF-9C81-9A601BE78521}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45CCC370-3AC8-44FF-9C81-9A601BE78521}.Release|ARM.ActiveCfg = Release|Any CPU
+		{45CCC370-3AC8-44FF-9C81-9A601BE78521}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{709E8FC8-E942-48F5-92D5-B506AE3FDFBB} = {E37C5EE6-944A-480D-A18D-AC61086B24E1}
+		{45CCC370-3AC8-44FF-9C81-9A601BE78521} = {E37C5EE6-944A-480D-A18D-AC61086B24E1}
 	EndGlobalSection
 EndGlobal
