@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfieFood.Web", "SelfieFood.Web\SelfieFood.Web.csproj", "{A151098D-9158-4EE5-8AC4-95D35F467D0F}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{45CCC370-3AC8-44FF-9C81-9A601BE78521}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfieFood.App", "SelfieFood.App\SelfieFood.App.csproj", "{3C4A995B-3EF5-416A-B085-6A2BCE063E97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfieFood.DoubleGisApi", "SelfieFood.2gisApi\SelfieFood.DoubleGisApi.csproj", "{633840BF-8068-4526-A6AB-548024E674BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,14 @@ Global
 		{3C4A995B-3EF5-416A-B085-6A2BCE063E97}.Release|x86.ActiveCfg = Release|x86
 		{3C4A995B-3EF5-416A-B085-6A2BCE063E97}.Release|x86.Build.0 = Release|x86
 		{3C4A995B-3EF5-416A-B085-6A2BCE063E97}.Release|x86.Deploy.0 = Release|x86
+		{633840BF-8068-4526-A6AB-548024E674BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{633840BF-8068-4526-A6AB-548024E674BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{633840BF-8068-4526-A6AB-548024E674BF}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{633840BF-8068-4526-A6AB-548024E674BF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{633840BF-8068-4526-A6AB-548024E674BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{633840BF-8068-4526-A6AB-548024E674BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{633840BF-8068-4526-A6AB-548024E674BF}.Release|ARM.ActiveCfg = Release|Any CPU
+		{633840BF-8068-4526-A6AB-548024E674BF}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,5 +92,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{709E8FC8-E942-48F5-92D5-B506AE3FDFBB} = {E37C5EE6-944A-480D-A18D-AC61086B24E1}
 		{45CCC370-3AC8-44FF-9C81-9A601BE78521} = {E37C5EE6-944A-480D-A18D-AC61086B24E1}
+		{633840BF-8068-4526-A6AB-548024E674BF} = {E37C5EE6-944A-480D-A18D-AC61086B24E1}
 	EndGlobalSection
 EndGlobal
