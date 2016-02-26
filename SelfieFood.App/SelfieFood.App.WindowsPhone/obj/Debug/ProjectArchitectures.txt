@@ -1,0 +1,1 @@
+C:\Projects\SelfieFood\SelfieFood.App\SelfieFood.App.WindowsPhone\SelfieFood.App.WindowsPhone.csproj;neutral
