@@ -1,1 +1,1 @@
-C:\Projects\SelfieFood\SelfieFood.App\SelfieFood.App.WindowsPhone\SelfieFood.App.WindowsPhone.csproj;neutral
+D:\GitHub\SelfieFood\SelfieFood.App\SelfieFood.App.WindowsPhone\SelfieFood.App.WindowsPhone.csproj;neutral

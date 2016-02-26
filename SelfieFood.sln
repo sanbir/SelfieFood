@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfieFood.Web", "SelfieFood.Web\SelfieFood.Web.csproj", "{A151098D-9158-4EE5-8AC4-95D35F467D0F}"
 EndProject
@@ -10,6 +10,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfieFood.App.WindowsPhone", "SelfieFood.App\SelfieFood.App.WindowsPhone\SelfieFood.App.WindowsPhone.csproj", "{A2DFEE33-B534-4BE8-B94A-9D31AE9B6B90}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		SelfieFood.App\SelfieFood.App.Shared\SelfieFood.App.Shared.projitems*{a2dfee33-b534-4be8-b94a-9d31ae9b6b90}*SharedItemsImports = 4
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
