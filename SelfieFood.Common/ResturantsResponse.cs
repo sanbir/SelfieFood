@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SelfieFood.Common
 {
-    public class ResturantsResponce
+    public class ResturantsResponse
     {
         public string Name { get; set; }
     }
