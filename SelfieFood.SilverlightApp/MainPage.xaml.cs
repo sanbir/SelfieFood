@@ -68,9 +68,6 @@ namespace SelfieFood.SilverlightApp
                 _faceImage.Stretch = System.Windows.Media.Stretch.UniformToFill;
                 _faceImage.Source = bitMap;
 
-                //e.ChosenPhoto.
-                var client = new HttpClient();
-
                 var r = new BinaryReader(e.ChosenPhoto);
                 e.ChosenPhoto.Seek(0, SeekOrigin.Begin);
 
@@ -78,10 +75,10 @@ namespace SelfieFood.SilverlightApp
 
                 var uri = new Uri("http://10.54.5.85:57164/Api/FoodApi/PostPhoto");
                 
-                var request = (HttpWebRequest)WebRequest.CreateHttp(uri);
+                //var request = (HttpWebRequest)WebRequest.CreateHttp(uri);
 
-                var data = await GetHttpPostResponse(request, bytes);
-               
+                //var data = await GetHttpPostResponse(request, bytes);
+                _btnPredict.IsEnabled = true;
             }
         }
 
@@ -126,7 +123,7 @@ namespace SelfieFood.SilverlightApp
 
         private void btnPredictRestraunt(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            NavigationService.Navigate(new Uri("/Results.xaml", UriKind.Relative));
         }
     }
 }

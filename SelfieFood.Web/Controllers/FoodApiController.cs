@@ -18,8 +18,7 @@ namespace SelfieFood.Web.Controllers
         [HttpGet]
         [HttpPost]
         public async Task<ResturantsResponse> PostPhoto()
-        {
-           
+        {           
             var data = await this.Request.Content.ReadAsByteArrayAsync();
             var faces = GetFaces(data);
             var emotions = GetEmotions(data);

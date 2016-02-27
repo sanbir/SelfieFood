@@ -1,0 +1,121 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="SelfieFood.SilverlightApp.Results"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock Text="РЕКОМЕНДАТОР" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock Text="результаты" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <telerikPrimitives:RadSlideView x:Name="slideView" Margin="6,0,0,0" ItemsSource="{Binding}">
+                    <telerikPrimitives:RadSlideView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="6">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Image Source="{Binding Image}"  Stretch="UniformToFill"/>
+                                <TextBlock Text="{Binding Title}" 
+                                   Grid.Row="1"
+                                   FontSize="{StaticResource PhoneFontSizeMediumLarge}" 
+                                   FontFamily="{StaticResource PhoneFontFamilySemiBold}" 
+                                   Foreground="#3bb23b"/>
+                                <TextBlock Text="{Binding DateText}" 
+                                   Grid.Row="2"
+                                   FontSize="{StaticResource PhoneFontSizeSmall}" 
+                                   Foreground="{StaticResource PhoneSubtleBrush}"
+                                   Margin="0,4,0,18"/>
+                                <Grid Grid.Row="3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.3*"/>
+                                        <ColumnDefinition Width="0.7*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="Images/like.png" Stretch="None" Margin="0,0,6,0"/>
+                                        <TextBlock Text="Flamp: " FontFamily="{StaticResource PhoneFontFamilySemiBold}"/>
+                                        <TextBlock Text="{Binding Likes}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <TextBlock Text="Кафе и рестораны"/>
+                                        <Ellipse Width="6" Height="6" Fill="#3bb23b" Margin="6,0,6,0" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding Index}"/>
+                                        <TextBlock Text=" of 7"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </telerikPrimitives:RadSlideView.ItemTemplate>
+                </telerikPrimitives:RadSlideView>
+                <Grid Grid.Row="1" Margin="12,12,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border HorizontalAlignment="Stretch" 
+                    BorderThickness="0,2,0,0" 
+                    BorderBrush="#3bb23b" 
+                    VerticalAlignment="Top"
+                    Margin="0,24,0,0"/>
+                    <Border BorderThickness="2" 
+                    Width="52" 
+                    Height="52" 
+                    BorderBrush="#3bb23b" 
+                    CornerRadius="24" 
+                    Grid.Column="1" 
+                    Margin="12,0,12,0">
+                        <Image Source="Images/play.png" Stretch="None" x:Name="buttonImage" Tap="OnPlayTap"/>
+                    </Border>
+                    <Border HorizontalAlignment="Stretch" 
+                    BorderThickness="0,2,0,0" 
+                    BorderBrush="#3bb23b" 
+                    VerticalAlignment="Top"
+                    Margin="0,24,0,0"
+                    Grid.Column="2"/>
+                    <TextBlock Text="хочу пойти!" 
+                       Margin="0,4,0,12" 
+                       Grid.Row="1" 
+                       Grid.ColumnSpan="3" 
+                       HorizontalAlignment="Center"
+                       Foreground="#3bb23b"/>
+                </Grid>
+            </Grid>
+
+        </Grid>
+    </Grid>
+
+</phone:PhoneApplicationPage>
