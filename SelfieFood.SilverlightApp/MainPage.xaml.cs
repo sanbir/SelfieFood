@@ -71,10 +71,17 @@ namespace SelfieFood.SilverlightApp
                 //e.ChosenPhoto.
                 var client = new HttpClient();
 
-                var content = new HttpStreamContent(e.ChosenPhoto.AsInputStream());
+                var r = new BinaryReader(e.ChosenPhoto);
+                e.ChosenPhoto.Seek(0, SeekOrigin.Begin);
 
-                // TODO: победить локалхост для отправки или задеплоить на сервер
-                var result = await client.PostAsync(new Uri("http://169.254.80.80:57164/Api/FoodApi/PostPhoto"), content);
+                var bytes = r.ReadBytes((int)e.ChosenPhoto.Length);
+
+                var uri = new Uri("http://10.54.5.85:57164/Api/FoodApi/PostPhoto");
+                
+                var request = (HttpWebRequest)WebRequest.CreateHttp(uri);
+
+                var data = await GetHttpPostResponse(request, bytes);
+               
             }
         }
 
@@ -85,7 +92,7 @@ namespace SelfieFood.SilverlightApp
 
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded";
-
+            request.ContentLength = requestBody.Length;
             // ASYNC: using awaitable wrapper to get request stream
             using (var postStream = await request.GetRequestStreamAsync())
             {

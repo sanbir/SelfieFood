@@ -19,6 +19,7 @@ namespace SelfieFood.Web.Controllers
         [HttpPost]
         public async Task<ResturantsResponse> PostPhoto()
         {
+           
             var data = await this.Request.Content.ReadAsByteArrayAsync();
             var faces = GetFaces(data);
             var emotions = GetEmotions(data);
@@ -26,7 +27,7 @@ namespace SelfieFood.Web.Controllers
 
             var faceAttrs = faces.First().FaceAttributes;            
 
-            return new ResturantsResponse()
+            return new ResturantsResponse
             {
                 Name = string.Format("Age: {0}, Sex: {1}, Happiness:{2}", faceAttrs.Age, faceAttrs.Gender, emotions.First().Scores.Happiness)
             };
