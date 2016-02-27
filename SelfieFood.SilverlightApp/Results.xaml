@@ -84,7 +84,14 @@
             <TextBlock Text="РЕКОМЕНДАТОР" Style="{StaticResource PhoneTextNormalStyle}"/>
             <TextBlock Text="результаты" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
             <StackPanel Orientation="Horizontal">
-                <ContentControl Style="{StaticResource Infant}" Width="30" Height="30" Margin="2"/>
+                <ItemsControl DataContext="PeopleViewModel">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ContentControl Style="{StaticResource Infant}" Width="30" Height="30" Margin="2"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                
                 <ContentControl Style="{StaticResource Child}" Width="30" Height="30" Margin="2"/>
                 <ContentControl Style="{StaticResource Man}" Width="30" Height="30" Margin="2"/>
                 <ContentControl Style="{StaticResource BeardedMan}" Width="30" Height="30" Margin="2"/>
