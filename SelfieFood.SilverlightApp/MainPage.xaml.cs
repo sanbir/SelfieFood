@@ -1,21 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using Windows.Storage.Streams;
-using Windows.Web.Http;
 using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
-using SelfieFood.SilverlightApp.Resources;
 
 namespace SelfieFood.SilverlightApp
 {
@@ -74,10 +65,10 @@ namespace SelfieFood.SilverlightApp
                 var bytes = r.ReadBytes((int)e.ChosenPhoto.Length);
 
                 var uri = new Uri("http://10.54.5.85:57164/Api/FoodApi/PostPhoto");
-                
-                //var request = (HttpWebRequest)WebRequest.CreateHttp(uri);
 
-                //var data = await GetHttpPostResponse(request, bytes);
+                //var data = awai                
+                //var request = (HttpWebRequest)WebRequest.CreateHttp(uri);
+t GetHttpPostResponse(request, bytes);
                 _btnPredict.IsEnabled = true;
             }
         }
