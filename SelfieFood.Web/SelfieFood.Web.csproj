@@ -245,11 +245,6 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="CommentGeneration\CommentGenerator.cs" />
-    <Compile Include="CommentGeneration\GroupOfPeopleCommentGenerator.cs" />
-    <Compile Include="CommentGeneration\OnePersonCommentGenerator.cs" />
-    <Compile Include="CommentGeneration\PairOfPeopleCommentGenerator.cs" />
-    <Compile Include="CommentGeneration\Person.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FoodApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

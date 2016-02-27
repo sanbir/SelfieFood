@@ -50,8 +50,6 @@ namespace SelfieFood.SilverlightApp
         {
             if (e.TaskResult == TaskResult.OK)
             {
-                _busyIndicator.IsRunning = true;
-
                 var bitMap = new BitmapImage();
 
                 bitMap.SetSource(e.ChosenPhoto);
@@ -69,18 +67,12 @@ namespace SelfieFood.SilverlightApp
 
                     var request = WebRequest.CreateHttp(uri);
 
-                    LongOp();
-                    // var data = await GetHttpPostResponse(request, bytes);
-                }
 
-                _busyIndicator.IsRunning = false;
+                    var data = await GetHttpPostResponse(request, bytes);
+                }
             }
         }
 
-        private static async void LongOp()
-        {
-            Thread.Sleep(4000);
-        }
 
         internal static async Task<string> GetHttpPostResponse(HttpWebRequest request, byte[] requestBody)
         {
