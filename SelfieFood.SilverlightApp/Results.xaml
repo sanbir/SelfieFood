@@ -61,7 +61,6 @@
                                         <ColumnDefinition Width="0.7*"/>
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="Images/like.png" Stretch="None" Margin="0,0,6,0"/>
                                         <TextBlock Text="Flamp: " FontFamily="{StaticResource PhoneFontFamilySemiBold}"/>
                                         <TextBlock Text="{Binding Likes}"/>
                                     </StackPanel>
@@ -86,32 +85,23 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Border HorizontalAlignment="Stretch" 
-                    BorderThickness="0,2,0,0" 
-                    BorderBrush="#3bb23b" 
-                    VerticalAlignment="Top"
-                    Margin="0,24,0,0"/>
+                   
                     <Border BorderThickness="2" 
                     Width="52" 
                     Height="52" 
-                    BorderBrush="#3bb23b" 
+                    BorderBrush="#eeeeee" 
                     CornerRadius="24" 
                     Grid.Column="1" 
                     Margin="12,0,12,0">
-                        <Image Source="Images/play.png" Stretch="None" x:Name="buttonImage" Tap="OnPlayTap"/>
+                        <Image HorizontalAlignment="Center" VerticalAlignment="Center" Source="Images/like.png" Stretch="None" x:Name="buttonImage" Tap="OnPlayTap"/>
                     </Border>
-                    <Border HorizontalAlignment="Stretch" 
-                    BorderThickness="0,2,0,0" 
-                    BorderBrush="#3bb23b" 
-                    VerticalAlignment="Top"
-                    Margin="0,24,0,0"
-                    Grid.Column="2"/>
+                  
                     <TextBlock Text="хочу пойти!" 
                        Margin="0,4,0,12" 
                        Grid.Row="1" 
                        Grid.ColumnSpan="3" 
                        HorizontalAlignment="Center"
-                       Foreground="#3bb23b"/>
+                       Foreground="#eeeeee"/>
                 </Grid>
             </Grid>
 

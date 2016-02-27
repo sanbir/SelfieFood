@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -25,13 +24,16 @@ namespace SelfieFood.Web.Controllers
             var faces = GetFaces(data);
             var emotions = GetEmotions(data);
 
-
             var searchRequest = SearchRequestEvaluator.Evaluate(faces, emotions);
             var dataProvider = new DoubleGisDataProvider();
             var firms = dataProvider.GetResturants(searchRequest.SearchQuery, searchRequest.Criteria);
 
             // TODO: дописать АПИ
-            return new ResturantsResponse { };
+            return new ResturantsResponse
+            {
+                People = faces.Select(f=>f.FaceAttributes).ToArray(),
+                Variants = { }
+            };
         }
 
         private static Face[] GetFaces(byte[] image)

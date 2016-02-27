@@ -1,7 +1,11 @@
-﻿namespace SelfieFood.Common
+﻿using Microsoft.ProjectOxford.Face.Contract;
+
+namespace SelfieFood.Common
 {
     public class ResturantsResponse
     {
+        public FaceAttributes[] People { get; set; }
+
         public RestrauntInfo[] Variants { get; set; }
     }
 

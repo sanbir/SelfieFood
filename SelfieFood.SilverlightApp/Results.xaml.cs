@@ -4,7 +4,6 @@ using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Resources;
 using Microsoft.Phone.Controls;
 
 namespace SelfieFood.SilverlightApp
@@ -12,7 +11,6 @@ namespace SelfieFood.SilverlightApp
     public partial class Results : PhoneApplicationPage
     {
         private readonly List<ViewModel> _itemsSource = new List<ViewModel>(3);
-       
 
         public Results()
         {
@@ -24,15 +22,15 @@ namespace SelfieFood.SilverlightApp
 
         private void LoadData()
         {
-            StreamResourceInfo resource = Application.GetResourceStream(new Uri("FirstLookData.txt", UriKind.RelativeOrAbsolute));
-            using (StreamReader reader = new StreamReader(resource.Stream))
+            var resource = Application.GetResourceStream(new Uri("FirstLookData.txt", UriKind.RelativeOrAbsolute));
+            using (var reader = new StreamReader(resource.Stream))
             {
                 string line;
                 var index = 1;
                 while (!string.IsNullOrEmpty(line = reader.ReadLine()))
                 {
                     var values = line.Split(';');
-                    ViewModel model = new ViewModel
+                    var model = new ViewModel
                     {
                         Image = new Uri(values[0], UriKind.Absolute),
                         Title = values[1],

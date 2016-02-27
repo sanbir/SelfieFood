@@ -6,6 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -49,15 +50,46 @@
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
-                <RowDefinition Height="150"></RowDefinition>
+                <RowDefinition Height="70"></RowDefinition>
             </Grid.RowDefinitions>
-            <Image x:Name="_faceImage"></Image>
+            <Image x:Name="_faceImage" Source="Images/background.jpg" Stretch="UniformToFill"></Image>
 
-            <StackPanel Grid.Row="1" Orientation="Vertical">
-                <Button  Click="btnCapture_Click">Сделать фото</Button>
-                <Button  Click="btnPredictRestraunt" x:Name="_btnPredict" IsEnabled="False">Подобрать ресторан</Button>
-            </StackPanel>
-            
+            <Grid Grid.Row="1" Margin="12,12,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+              
+                <Border BorderThickness="2" 
+                    Width="52" 
+                    Height="52" 
+                    BorderBrush="#eeeeee" 
+                    CornerRadius="24" 
+                    Grid.Column="1" 
+                    Margin="0,0,0,0">
+                    <Image VerticalAlignment="Center" HorizontalAlignment="Center" Source="Images/feature.camera.png" Stretch="None" x:Name="buttonImage" Tap="btnCapture_Click"/>
+                </Border>
+               
+                <TextBlock Text="хочу пойти!" 
+                       Margin="0,4,0,12" 
+                       Grid.Row="1" 
+                       Grid.ColumnSpan="3" 
+                       HorizontalAlignment="Center"
+                       Foreground="#eeeeee"/>
+            </Grid>
+<!--            <telerikPrimitives:RadBusyIndicator  -->
+<!--                                            Foreground="LawnGreen"-->
+<!--                                            x:Name="_busyIndicator" -->
+<!--                                            Visibility="Visible"-->
+<!--                                            IsRunning="False"-->
+<!--                                            Grid.Row="0" -->
+<!--                                            Grid.RowSpan="2"-->
+<!--                                            AnimationStyle="AnimationStyle9"/>-->
         </Grid>
 
         <!--Uncomment to see an alignment grid to help ensure your controls are
