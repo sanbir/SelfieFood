@@ -8,26 +8,21 @@ namespace SelfieFood.DoubleGisApi
 {
     public class DoubleGisDataProvider
     {
-        private readonly string _path;
+        private readonly string _ApiUri = "http://catalog.api.2gis.ru/2.0/catalog/branch/search";
         private readonly string _userKey = "ruffzo9376";
-        private readonly string[] _fields = { "dym", "items.reviews", "items.external_content" };
+        private readonly string[] _fields = { "items.reviews", "items.external_content" };
 
-        public DoubleGisDataProvider(string path)
+        public Response GetFirms(string searchString, IEnumerable<string> criteries)
         {
-            _path = path;
-        }
-
-        public Response GetFirms(IEnumerable<string> criteries)
-        {
-            var uriBuilder = new UriBuilder(_path);
+            var uriBuilder = new UriBuilder(_ApiUri);
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
 
-            query["q"] = "Поесть";
+            query["q"] = searchString;
+
             query["region_id"] = 1.ToString();
             query["fields"] = string.Join(",", _fields);
             query["key"] = _userKey;
-
-            var a = HttpUtility.UrlEncode("dym,items.reviews");
+            query["sort"] = "flamp_rating";
 
             foreach (var critery in criteries)
             {
