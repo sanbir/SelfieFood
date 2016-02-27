@@ -336,6 +336,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SelfieFood.2gisApi\SelfieFood.DoubleGisApi.csproj">
+      <Project>{633840BF-8068-4526-A6AB-548024E674BF}</Project>
+      <Name>SelfieFood.DoubleGisApi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SelfieFood.Common\SelfieFood.Common.csproj">
       <Project>{E587D904-10A5-4571-B35E-D578DB925059}</Project>
       <Name>SelfieFood.Common</Name>

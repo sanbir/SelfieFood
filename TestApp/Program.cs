@@ -9,8 +9,10 @@ namespace TestApp
     {
         static void Main(string[] args)
         {
-            var doubleGisProvider = new DoubleGisDataProvider("http://catalog.api.2gis.ru/2.0/catalog/branch/search");
-            var result = doubleGisProvider.GetFirms(new[] { FoodServiceAttribute.LiveMusic });
+            var doubleGisProvider = new DoubleGisDataProvider();
+            var restaurants = doubleGisProvider.GetFirms("Поесть", new[] { FoodServiceAttribute.LiveMusic });
+            var bars = doubleGisProvider.GetFirms("Бары / Пабы", new string[] { });
+            var sushiRestaurant = doubleGisProvider.GetFirms("суши-бары / рестораны", new string[] { });
 
             var data = new HowOldDataProvider();
 

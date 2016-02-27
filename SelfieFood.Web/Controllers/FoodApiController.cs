@@ -13,6 +13,8 @@ using SelfieFood.Common;
 
 namespace SelfieFood.Web.Controllers
 {
+    using SelfieFood.DoubleGisApi;
+
     public class FoodApiController : ApiController
     {
         [HttpGet]
@@ -24,12 +26,11 @@ namespace SelfieFood.Web.Controllers
             var emotions = GetEmotions(data);
 
 
-            var faceAttrs = faces.First().FaceAttributes;            
+            var searchRequest = SearchRequestEvaluator.Evaluate(faces, emotions);
+            var dataProvider = new DoubleGisDataProvider("2gis.ru");
+            var firms = dataProvider.GetFirms(searchRequest.Criteria);
 
-            return new ResturantsResponse
-            {
-                Name = string.Format("Age: {0}, Sex: {1}, Happiness:{2}", faceAttrs.Age, faceAttrs.Gender, emotions.First().Scores.Happiness)
-            };
+            return new ResturantsResponse { Name = firms.Result.Items.First().Name };
         }
 
         private Face[] GetFaces(Byte[] image)
