@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -40,7 +41,7 @@ namespace SelfieFood.SilverlightApp
         //}
         private async void btnCapture_Click(object sender, RoutedEventArgs e)
         {
-            CameraCaptureTask camera = new CameraCaptureTask();
+            var camera = new CameraCaptureTask();
             camera.Completed += camera_Completed;
             camera.Show();
         }
@@ -49,6 +50,8 @@ namespace SelfieFood.SilverlightApp
         {
             if (e.TaskResult == TaskResult.OK)
             {
+                _busyIndicator.IsRunning = true;
+
                 var bitMap = new BitmapImage();
 
                 bitMap.SetSource(e.ChosenPhoto);
@@ -66,14 +69,18 @@ namespace SelfieFood.SilverlightApp
 
                     var request = WebRequest.CreateHttp(uri);
 
-
-                    var data = await GetHttpPostResponse(request, bytes);
+                    LongOp();
+                    // var data = await GetHttpPostResponse(request, bytes);
                 }
 
-                _btnPredict.IsEnabled = true;
+                _busyIndicator.IsRunning = false;
             }
         }
 
+        private static async void LongOp()
+        {
+            Thread.Sleep(4000);
+        }
 
         internal static async Task<string> GetHttpPostResponse(HttpWebRequest request, byte[] requestBody)
         {

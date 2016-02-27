@@ -163,6 +163,7 @@
     </Content>
     <Content Include="FirstLookData.txt" />
     <Content Include="Images\feature.camera.png" />
+    <Content Include="Images\like.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AppResources.resx">

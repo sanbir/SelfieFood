@@ -6,6 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -90,7 +91,14 @@
                        HorizontalAlignment="Center"
                        Foreground="#3bb23b"/>
             </Grid>
-            
+<!--            <telerikPrimitives:RadBusyIndicator  -->
+<!--                                            Foreground="LawnGreen"-->
+<!--                                            x:Name="_busyIndicator" -->
+<!--                                            Visibility="Visible"-->
+<!--                                            IsRunning="False"-->
+<!--                                            Grid.Row="0" -->
+<!--                                            Grid.RowSpan="2"-->
+<!--                                            AnimationStyle="AnimationStyle9"/>-->
         </Grid>
 
         <!--Uncomment to see an alignment grid to help ensure your controls are
