@@ -58,7 +58,7 @@ namespace SelfieFood.SilverlightApp
             camera.Show();
         }
 
-        private void camera_Completed(object sender, PhotoResult e)
+        private async void camera_Completed(object sender, PhotoResult e)
         {
             if (e.TaskResult == TaskResult.OK)
             {
@@ -74,7 +74,7 @@ namespace SelfieFood.SilverlightApp
                 var content = new HttpStreamContent(e.ChosenPhoto.AsInputStream());
 
                 // TODO: победить локалхост для отправки или задеплоить на сервер
-                client.PostAsync(new Uri("http://localhost:57164/Api/FoodApi/PostPhoto"), content).GetResults();
+                var result = await client.PostAsync(new Uri("http://169.254.80.80:57164/Api/FoodApi/PostPhoto"), content);
             }
         }
 
