@@ -18,37 +18,24 @@ namespace SelfieFood.Web.Controllers
 
     public class FoodApiController : ApiController
     {
-        //[HttpGet]
-        //[HttpPost]
-        //public async Task<ResturantsResponse> PostPhoto()
-        //{
-        //    var data = await this.Request.Content.ReadAsByteArrayAsync();
-        //    var faces = GetFaces(data);
-        //    var emotions = GetEmotions(data);
-
-        //    var searchRequest = SearchRequestEvaluator.Evaluate(faces, emotions);
-        //    var dataProvider = new DoubleGisDataProvider();
-        //    var firms = dataProvider.GetResturants(searchRequest.SearchQuery, searchRequest.Criteria);
-
-        //    // TODO: дописать АПИ
-        //    return new ResturantsResponse
-        //    {
-        //        People = faces.Select(f=>f.FaceAttributes).ToArray(),
-        //        Variants = { }
-        //    };
-        //}
-
         [HttpGet]
         [HttpPost]
-        public async Task<ResturantsResponse> Test()
+        public async Task<ResturantsResponse> PostPhoto()
         {
+            var data = await this.Request.Content.ReadAsByteArrayAsync();
+            var faces = GetFaces(data);
+            var emotions = GetEmotions(data);
 
-            var searchRequest = new SearchRequest(new List<string>() { FoodServiceAttribute.KidsMenu });
+            var searchRequest = SearchRequestEvaluator.Evaluate(faces, emotions);
             var dataProvider = new DoubleGisDataProvider();
             var firms = dataProvider.GetResturants(searchRequest.SearchQuery, searchRequest.Criteria);
 
             // TODO: дописать АПИ
-            return new ResturantsResponse { };
+            return new ResturantsResponse
+            {
+                People = faces.Select(f => f.FaceAttributes).ToArray(),
+                Variants = { }
+            };
         }
 
         private static Face[] GetFaces(byte[] image)
