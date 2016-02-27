@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -12,11 +13,7 @@ namespace SelfieFood.SilverlightApp
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        //Instances  
-        BitmapImage bitMap;
-        Random rand;
-        WriteableBitmap saveBitMap;
-
+       
         // Constructor
         public MainPage()
         {
@@ -41,9 +38,8 @@ namespace SelfieFood.SilverlightApp
         //    ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
         //    ApplicationBar.MenuItems.Add(appBarMenuItem);
         //}
-        private void btnCapture_Click(object sender, RoutedEventArgs e)
+        private async void btnCapture_Click(object sender, RoutedEventArgs e)
         {
-
             CameraCaptureTask camera = new CameraCaptureTask();
             camera.Completed += camera_Completed;
             camera.Show();
@@ -53,30 +49,43 @@ namespace SelfieFood.SilverlightApp
         {
             if (e.TaskResult == TaskResult.OK)
             {
-                bitMap = new BitmapImage();
+                var bitMap = new BitmapImage();
+
                 bitMap.SetSource(e.ChosenPhoto);
                 // Set to Image Control  
                 _faceImage.Stretch = System.Windows.Media.Stretch.UniformToFill;
                 _faceImage.Source = bitMap;
 
-                var r = new BinaryReader(e.ChosenPhoto);
-                e.ChosenPhoto.Seek(0, SeekOrigin.Begin);
+                using (var r = new BinaryReader(e.ChosenPhoto))
+                {
+                    e.ChosenPhoto.Seek(0, SeekOrigin.Begin);
 
-                var bytes = r.ReadBytes((int)e.ChosenPhoto.Length);
+                    var bytes = r.ReadBytes((int)e.ChosenPhoto.Length);
 
-                var uri = new Uri("http://10.54.5.85:57164/Api/FoodApi/PostPhoto");
+                    var uri = new Uri("http://10.54.5.85:57164/Api/FoodApi/PostPhoto");
 
-                var request = (HttpWebRequest)WebRequest.CreateHttp(uri);
+                    var request = WebRequest.CreateHttp(uri);
 
-                var data = await GetHttpPostResponse(request, bytes);
+
+                    var data = await GetHttpPostResponse(request, bytes);
+                }
+
                 _btnPredict.IsEnabled = true;
             }
         }
 
 
-        internal static async Task<String> GetHttpPostResponse(HttpWebRequest request, byte[] requestBody)
+        internal static async Task<string> GetHttpPostResponse(HttpWebRequest request, byte[] requestBody)
         {
             string received = null;
+
+            var coord = await LocationService.GetCurrentLocation();
+
+            if (coord != null)
+            {
+                request.Headers["Lat"] = coord.Latitude.ToString(CultureInfo.InvariantCulture);
+                request.Headers["Lon"] = coord.Longitude.ToString(CultureInfo.InvariantCulture);
+            }
 
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded";

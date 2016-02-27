@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using Microsoft.ProjectOxford.Emotion.Contract;
 using Microsoft.ProjectOxford.Face.Contract;
 using SelfieFood.Common;

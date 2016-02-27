@@ -49,14 +49,47 @@
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
-                <RowDefinition Height="150"></RowDefinition>
+                <RowDefinition Height="70"></RowDefinition>
             </Grid.RowDefinitions>
             <Image x:Name="_faceImage"></Image>
 
-            <StackPanel Grid.Row="1" Orientation="Vertical">
-                <Button  Click="btnCapture_Click">Сделать фото</Button>
-                <Button  Click="btnPredictRestraunt" x:Name="_btnPredict" IsEnabled="False">Подобрать ресторан</Button>
-            </StackPanel>
+            <Grid Grid.Row="1" Margin="12,12,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border HorizontalAlignment="Stretch" 
+                    BorderThickness="0,2,0,0" 
+                    BorderBrush="#3bb23b" 
+                    VerticalAlignment="Top"
+                    Margin="0,24,0,0"/>
+                <Border BorderThickness="2" 
+                    Width="52" 
+                    Height="52" 
+                    BorderBrush="#3bb23b" 
+                    CornerRadius="24" 
+                    Grid.Column="1" 
+                    Margin="0,0,0,0">
+                    <Image VerticalAlignment="Center" HorizontalAlignment="Center" Source="Images/feature.camera.png" Stretch="None" x:Name="buttonImage" Tap="btnCapture_Click"/>
+                </Border>
+                <Border HorizontalAlignment="Stretch" 
+                    BorderThickness="0,2,0,0" 
+                    BorderBrush="#3bb23b" 
+                    VerticalAlignment="Top"
+                    Margin="0,24,0,0"
+                    Grid.Column="2"/>
+                <TextBlock Text="хочу пойти!" 
+                       Margin="0,4,0,12" 
+                       Grid.Row="1" 
+                       Grid.ColumnSpan="3" 
+                       HorizontalAlignment="Center"
+                       Foreground="#3bb23b"/>
+            </Grid>
             
         </Grid>
 
