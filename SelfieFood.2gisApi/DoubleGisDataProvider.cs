@@ -72,10 +72,10 @@ namespace SelfieFood.DoubleGisApi
                 query["radius"] = geoLocationParameters.Radius.ToString();
             }
 
-            foreach (var critery in criteries)
-            {
-                query.Add($"attr[{critery}]", true.ToString());
-            }
+            //foreach (var critery in criteries)
+            //{
+            //    query.Add($"attr[{critery}]", true.ToString());
+            //}
 
             //TODO: Исправить проблемы с кодировкой
             uriBuilder.Query = HttpUtility.UrlDecode(query.ToString());
