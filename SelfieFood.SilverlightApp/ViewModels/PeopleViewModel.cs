@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 
 namespace SelfieFood.SilverlightApp.ViewModels
 {
@@ -32,18 +33,14 @@ namespace SelfieFood.SilverlightApp.ViewModels
 
     public class PersonViewModel
     {
-        public PersonType PersonType { get; set; }
+        public PersonViewModel(Style personStyle, int age)
+        {
+            PersonStyle = personStyle;
+            Age = age;
+        }
 
-        public int Age { get; set; }
-    }
+        public int Age { get; }
 
-    public enum PersonType
-    {
-        Infant,
-        Child,
-        Man,
-        BeardedMan,
-        Woman,
-        OldMan
+        public Style PersonStyle { get; }
     }
 }

@@ -83,20 +83,21 @@
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
             <TextBlock Text="РЕКОМЕНДАТОР" Style="{StaticResource PhoneTextNormalStyle}"/>
             <TextBlock Text="результаты" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-            <StackPanel Orientation="Horizontal">
-                <ItemsControl DataContext="PeopleViewModel">
+            <StackPanel Orientation="Horizontal" DataContext="_peopleViewModel">
+                <ItemsControl x:Name="PersonIcons" ItemsSource="{Binding Path=PeopleViewModels}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <ContentControl Style="{StaticResource Infant}" Width="30" Height="30" Margin="2"/>
+                            <ContentControl Style="{Binding Path=PersonStyle}" Width="30" Height="30" Margin="2"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
+                <TextBlock Text="{Binding Path=AgeDiapason}"/>
                 
-                <ContentControl Style="{StaticResource Child}" Width="30" Height="30" Margin="2"/>
+                <!--<ContentControl Style="{StaticResource Child}" Width="30" Height="30" Margin="2"/>
                 <ContentControl Style="{StaticResource Man}" Width="30" Height="30" Margin="2"/>
                 <ContentControl Style="{StaticResource BeardedMan}" Width="30" Height="30" Margin="2"/>
                 <ContentControl Style="{StaticResource Woman}" Width="30" Height="30" Margin="2"/>
-                <ContentControl Style="{StaticResource OldMan}" Width="30" Height="30" Margin="2"/>
+                <ContentControl Style="{StaticResource OldMan}" Width="30" Height="30" Margin="2"/>-->
             </StackPanel>
         </StackPanel>
 

@@ -65,7 +65,7 @@ namespace SelfieFood.SilverlightApp
 
                     var bytes = r.ReadBytes((int)e.ChosenPhoto.Length);
 
-                    var uri = new Uri("http://10.54.5.85:57164/Api/FoodApi/PostPhoto");
+                    var uri = new Uri("http://selfiefoodweb20160228034641.azurewebsites.net/Api/FoodApi/PostPhoto");
 
                     var request = WebRequest.CreateHttp(uri);
 
@@ -86,13 +86,13 @@ namespace SelfieFood.SilverlightApp
 
             if (coord != null)
             {
-                request.Headers["Lat"] = coord.Latitude.ToString(CultureInfo.InvariantCulture);
-                request.Headers["Lon"] = coord.Longitude.ToString(CultureInfo.InvariantCulture);
+                //request.Headers["Lat"] = coord.Latitude.ToString(CultureInfo.InvariantCulture);
+                //request.Headers["Lon"] = coord.Longitude.ToString(CultureInfo.InvariantCulture);
             }
 
             request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded";
-            request.ContentLength = requestBody.Length;
+            //request.ContentType = "application/x-www-form-urlencoded";
+            //request.ContentLength = requestBody.Length;
             // ASYNC: using awaitable wrapper to get request stream
             using (var postStream = await request.GetRequestStreamAsync())
             {
