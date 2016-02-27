@@ -142,7 +142,7 @@ namespace SelfieFood.DoubleGisApi
             SearchQuery = searchQuery;
         }
 
-        public IReadOnlyCollection<string> Criteria { get; }
-        public string SearchQuery { get; }
+        public IReadOnlyCollection<string> Criteria { get; private set; }
+        public string SearchQuery { get; private set; }
     }
 }

@@ -2,22 +2,16 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Resources;
 using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
 
 namespace SelfieFood.SilverlightApp
 {
     public partial class Results : PhoneApplicationPage
     {
-        private List<ViewModel> itemsSource = new List<ViewModel>(3);
+        private readonly List<ViewModel> _itemsSource = new List<ViewModel>(3);
        
 
         public Results()
@@ -25,10 +19,7 @@ namespace SelfieFood.SilverlightApp
             InitializeComponent();
 
             LoadData();
-
-
-            this.slideView.DataContext = this.itemsSource;
-
+            slideView.DataContext = _itemsSource;
         }
 
         private void LoadData()
@@ -36,28 +27,24 @@ namespace SelfieFood.SilverlightApp
             StreamResourceInfo resource = Application.GetResourceStream(new Uri("FirstLookData.txt", UriKind.RelativeOrAbsolute));
             using (StreamReader reader = new StreamReader(resource.Stream))
             {
-                string line = string.Empty;
-                int index = 1;
+                string line;
+                var index = 1;
                 while (!string.IsNullOrEmpty(line = reader.ReadLine()))
                 {
-                    string[] values = line.Split(';');
-                    ViewModel model = new ViewModel();
+                    var values = line.Split(';');
+                    ViewModel model = new ViewModel
+                    {
+                        Image = new Uri(values[0], UriKind.Absolute),
+                        Title = values[1],
+                        Date = DateTime.Parse(values[2], CultureInfo.InvariantCulture),
+                        Index = index,
+                        Likes = values[3]
+                    };
 
-                    model.Image = new Uri(values[0], UriKind.Absolute); ;
-                    model.Title = values[1];
-                    model.Date = DateTime.Parse(values[2], CultureInfo.InvariantCulture);
-                    model.Index = index;
-                    model.Likes = values[3];
-
-                    this.itemsSource.Add(model);
+                    _itemsSource.Add(model);
                     index++;
                 }
             }
-        }
-
-        void bmi_ImageFailed(object sender, ExceptionRoutedEventArgs e)
-        {
-            
         }
 
         private void OnPlayTap(object sender, GestureEventArgs e)
