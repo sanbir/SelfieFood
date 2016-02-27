@@ -2,8 +2,8 @@
 {
     public class GeoLocationParameters
     {
-        public double Lon { get; set; }
-        public double Lat { get; set; }
+        public string Lon { get; set; }
+        public string Lat { get; set; }
         public int Radius { get; set; }
     }
 }

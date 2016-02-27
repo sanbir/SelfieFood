@@ -13,9 +13,9 @@ namespace TestApp
             var restaurants = doubleGisProvider.GetResturants("Поесть", new[] { FoodServiceAttribute.LiveMusic });
             var bars = doubleGisProvider.GetResturants("Бары / Пабы", new string[] { }, new GeoLocationParameters()
             {
-                Lat = 82,
-                Lon = 55,
-                Radius = 1000
+                Lat = "55.022973",
+                Lon = "82.923464",
+                Radius = 10000
             });
             var sushiRestaurant = doubleGisProvider.GetResturants("суши-бары / рестораны", new string[] { });
 
