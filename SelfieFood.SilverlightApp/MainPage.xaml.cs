@@ -69,8 +69,6 @@ namespace SelfieFood.SilverlightApp
 
                     var data = await GetHttpPostResponse(request, bytes);
                 }
-
-                _btnPredict.IsEnabled = true;
             }
         }
 

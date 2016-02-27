@@ -1,10 +1,10 @@
-﻿namespace SelfieFood.Common
+﻿using Microsoft.ProjectOxford.Face.Contract;
+
+namespace SelfieFood.Common
 {
     public class ResturantsResponse
     {
-        public const string NoPeopleFoundMessage = "Лиц на фото не найдено";
-
-        public string Comment { get; set; }
+        public FaceAttributes[] People { get; set; }
 
         public RestrauntInfo[] Variants { get; set; }
     }
