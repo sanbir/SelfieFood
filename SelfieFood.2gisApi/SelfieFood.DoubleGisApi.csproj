@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GeoLocationParameters.cs" />
     <Compile Include="SearchRequestEvaluator.cs" />
     <Compile Include="FoodServiceAttribute.cs" />
     <Compile Include="DoubleGisDataProvider.cs" />

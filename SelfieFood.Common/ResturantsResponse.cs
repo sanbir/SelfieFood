@@ -11,18 +11,12 @@
 
         public string Address { get; set; }
 
-        public string Url { get; set; }
+        public string DoubleGisCardUrl { get; set; }
 
         public string ImageUrl { get; set; }
 
         public float FlampOverallRating { get; set; }
 
-        public FlampFeedback[] FlampFeedbacks { get; set; }
-    }
-
-    public class FlampFeedback
-    {
-        public float Rating { get; set; }
-        public string Text { get; set; }
+        public string CardFlampUrl { get; set; }
     }
 }

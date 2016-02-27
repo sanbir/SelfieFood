@@ -16,21 +16,27 @@ namespace SelfieFood.DoubleGisApi
         private const string UserKey = "ruffzo9376";
         private readonly string[] _fields = { "items.reviews", "items.external_content" };
 
-        public ResturantsResponse GetResturants(string searchString, IEnumerable<string> criteries)
+        public ResturantsResponse GetResturants(string searchString, IEnumerable<string> criteries, GeoLocationParameters geoLocationParameters = null)
         {
-            var uri = CreateUri(searchString, criteries);
+            var uri = CreateUri(searchString, criteries, geoLocationParameters);
             var response = MakeRequest(uri);
 
             var resturants = new ResturantsResponse();
-            var firms = new List<RestrauntInfo>();
+            
+            if (response.Result == null)
+            {
+                return resturants;
+            }
 
+            var firms = new List<RestrauntInfo>();
             foreach (var item in response.Result.Items)
             {
                 var firmId = GetFirmId(item.Id);
                 firms.Add(new RestrauntInfo()
                 {
                     Name = item.Name,
-                    Url = GetCardDoubleGisUrl(firmId),
+                    DoubleGisCardUrl = GetCardDoubleGisUrl(firmId),
+                    CardFlampUrl = GetCardFlampUrl(firmId),
                     ImageUrl = item.Album.Select(x => x.MainPhotoUrl?.ToString()).FirstOrDefault(),
                     FlampOverallRating = item.Reviews.Rating,
                     Address = item.AddressName,
@@ -47,7 +53,7 @@ namespace SelfieFood.DoubleGisApi
             return id.Substring(0, id.IndexOf("_", StringComparison.Ordinal));
         }
 
-        private Uri CreateUri(string searchString, IEnumerable<string> criteries)
+        private Uri CreateUri(string searchString, IEnumerable<string> criteries, GeoLocationParameters geoLocationParameters)
         {
             var uriBuilder = new UriBuilder(ApiUri);
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
@@ -58,6 +64,13 @@ namespace SelfieFood.DoubleGisApi
             query["fields"] = string.Join(",", _fields);
             query["key"] = UserKey;
             query["sort"] = "flamp_rating";
+            query["work_time"] = "now";
+
+            if (geoLocationParameters != null)
+            {
+                query["point"] = $"{geoLocationParameters.Lon},{geoLocationParameters.Lat}";
+                query["radius"] = geoLocationParameters.Radius.ToString();
+            }
 
             foreach (var critery in criteries)
             {
@@ -76,7 +89,7 @@ namespace SelfieFood.DoubleGisApi
             return string.Format(CardDoubleGisTemplate, "Поесть", id);
         }
 
-        private string GetCardFlampUrl(string id)
+        private static string GetCardFlampUrl(string id)
         {
             return string.Format(CardFlampTemplate, id);
         }
@@ -88,7 +101,7 @@ namespace SelfieFood.DoubleGisApi
             {
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    throw new Exception(string.Format("Server error (HTTP {0}: {1}).", response.StatusCode, response.StatusDescription));
+                    throw new Exception($"Server error (HTTP {response.StatusCode}: {response.StatusDescription}).");
                 }
                 var jsonSerializer = new DataContractJsonSerializer(typeof(Response));
                 var objResponse = jsonSerializer.ReadObject(response.GetResponseStream());
