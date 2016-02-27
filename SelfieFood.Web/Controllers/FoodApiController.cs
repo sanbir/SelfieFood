@@ -40,7 +40,7 @@ namespace SelfieFood.Web.Controllers
                     () =>
                     faceServiceClient.DetectAsync(
                         new MemoryStream(image),
-                        returnFaceAttributes: new FaceAttributeType[] { FaceAttributeType.Age, })).Result;
+                        returnFaceAttributes: new FaceAttributeType[] { FaceAttributeType.Age, FaceAttributeType.Gender,  })).Result;
         }
 
         private Emotion[] GetEmotions(Byte[] image)
