@@ -12,6 +12,8 @@ using SelfieFood.Common;
 
 namespace SelfieFood.Web.Controllers
 {
+    using System.Collections.Generic;
+
     using DoubleGisApi;
 
     public class FoodApiController : ApiController
@@ -31,7 +33,7 @@ namespace SelfieFood.Web.Controllers
             // TODO: дописать АПИ
             return new ResturantsResponse
             {
-                People = faces.Select(f=>f.FaceAttributes).ToArray(),
+                People = faces.Select(f => f.FaceAttributes).ToArray(),
                 Variants = { }
             };
         }

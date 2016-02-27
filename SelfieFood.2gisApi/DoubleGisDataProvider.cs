@@ -64,7 +64,7 @@ namespace SelfieFood.DoubleGisApi
             query["fields"] = string.Join(",", _fields);
             query["key"] = UserKey;
             query["sort"] = "flamp_rating";
-            query["work_time"] = "now";
+            //query["work_time"] = "now";
 
             if (geoLocationParameters != null)
             {
