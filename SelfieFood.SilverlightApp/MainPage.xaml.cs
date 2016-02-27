@@ -9,6 +9,8 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Tasks;
+using Newtonsoft.Json;
+using SelfieFood.Dto.SelfieFood.Dto;
 
 namespace SelfieFood.SilverlightApp
 {
@@ -41,8 +43,6 @@ namespace SelfieFood.SilverlightApp
         //}
         private async void btnCapture_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Results.xaml", UriKind.Relative));
-            return;
             var camera = new CameraCaptureTask();
             camera.Completed += camera_Completed;
             camera.Show();
@@ -71,6 +71,8 @@ namespace SelfieFood.SilverlightApp
 
 
                     var data = await GetHttpPostResponse(request, bytes);
+
+                    NavigationService.Navigate(new Uri("/Results.xaml?d="+data, UriKind.Relative));
                 }
             }
         }
