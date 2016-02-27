@@ -12,10 +12,10 @@
         public static string InfrastructureBanquet = "food_service_infrastructure_banquet";
         public static string DetailsTakeaway = "food_service_details_takeaway"; // Еда на вынос
 
-        public static string VegetarianMenu = "stringfood_service_details_vegetarian_menu";
-        public static string FatFreeMenu = "stringfood_service_details_fat_free_menu"; //Постное меню
-        public static string KidsMenu = "stringfood_service_details_kids_menu";
-        public static string AccessibleEntrance = "stringgeneral_accessible_entrance"; //Доступно для инвалидов
+        public static string VegetarianMenu = "food_service_details_vegetarian_menu";
+        public static string FatFreeMenu = "food_service_details_fat_free_menu"; //Постное меню
+        public static string KidsMenu = "food_service_details_kids_menu";
+        public static string AccessibleEntrance = "general_accessible_entrance"; //Доступно для инвалидов
 
         public static string TableGames = "food_service_infrastructure_table_games";// Настольные игры
         public static string VipHall = "food_service_infrastructure_vip_hall";// VIP-зал

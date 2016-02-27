@@ -10,9 +10,14 @@ namespace TestApp
         static void Main(string[] args)
         {
             var doubleGisProvider = new DoubleGisDataProvider();
-            var restaurants = doubleGisProvider.GetFirms("Поесть", new[] { FoodServiceAttribute.LiveMusic });
-            var bars = doubleGisProvider.GetFirms("Бары / Пабы", new string[] { });
-            var sushiRestaurant = doubleGisProvider.GetFirms("суши-бары / рестораны", new string[] { });
+            var restaurants = doubleGisProvider.GetResturants("Поесть", new[] { FoodServiceAttribute.LiveMusic });
+            var bars = doubleGisProvider.GetResturants("Бары / Пабы", new string[] { }, new GeoLocationParameters()
+            {
+                Lat = "55.022973",
+                Lon = "82.923464",
+                Radius = 10000
+            });
+            var sushiRestaurant = doubleGisProvider.GetResturants("суши-бары / рестораны", new string[] { });
 
             var data = new HowOldDataProvider();
 
