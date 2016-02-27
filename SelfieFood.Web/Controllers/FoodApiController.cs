@@ -26,7 +26,7 @@ namespace SelfieFood.Web.Controllers
 
             var searchRequest = SearchRequestEvaluator.Evaluate(faces, emotions);
             var dataProvider = new DoubleGisDataProvider();
-            var firms = dataProvider.GetFirms(searchRequest.SearchQuery, searchRequest.Criteria);
+            var firms = dataProvider.GetResturants(searchRequest.SearchQuery, searchRequest.Criteria);
 
             // TODO: дописать АПИ
             return new ResturantsResponse
