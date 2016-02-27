@@ -52,7 +52,7 @@ namespace SelfieFood.DoubleGisApi
                 return ForPerson(faces, emotions);
             }
 
-            return new SearchRequest(searchQuery: "Теплица");
+            return new SearchRequest();
         }
 
         private static SearchRequest ForGroup(IReadOnlyCollection<Face> faces, IReadOnlyCollection<Emotion> emotions)
@@ -80,14 +80,17 @@ namespace SelfieFood.DoubleGisApi
 
         private static SearchRequest ForPair(IReadOnlyCollection<Face> faces, IReadOnlyCollection<Emotion> emotions)
         {
-            if (faces.GirlsOnly())
+            var result = new List<string>();
+
+            if (faces.AnyKids())
             {
-                return new SearchRequest(Criteria.ForGirlsCompany, "Суши");
+                result.AddRange(Criteria.ForKids);
             }
 
-            if (faces.BoysOnly())
+            var age = faces.First().FaceAttributes.Age;
+            if (age > 10 && age < 35)
             {
-                return new SearchRequest(Criteria.ForBoysCompany, "Пиво");
+                result.Add(FoodServiceAttribute.Wifi);
             }
 
             return new SearchRequest(Criteria.ForDate);
@@ -95,22 +98,25 @@ namespace SelfieFood.DoubleGisApi
 
         private static SearchRequest ForPerson(IReadOnlyCollection<Face> faces, IReadOnlyCollection<Emotion> emotions)
         {
-            if (faces.GirlsOnly())
+            var result = new List<string>();
+
+            if (faces.AnyKids())
             {
-                return new SearchRequest(searchQuery: "Суши");
+                result.AddRange(Criteria.ForKids);
             }
 
-            if (faces.BoysOnly())
+            var age = faces.First().FaceAttributes.Age;
+            if (age > 10 && age < 35)
             {
-                return new SearchRequest(searchQuery: "Пиво");
+                result.Add(FoodServiceAttribute.Wifi);
             }
 
-            return new SearchRequest(searchQuery: "Поесть");
+            return new SearchRequest(result);
         }
 
         private static bool AnyKids(this IReadOnlyCollection<Face> faces)
         {
-            return faces.Any(x => x.FaceAttributes.Age < 16);
+            return faces.Any(x => x.FaceAttributes.Age < 14);
         }
 
         private static double AgeDifference(this IReadOnlyCollection<Face> faces)

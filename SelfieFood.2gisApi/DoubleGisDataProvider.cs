@@ -17,7 +17,7 @@ namespace SelfieFood.DoubleGisApi
             var uriBuilder = new UriBuilder(_ApiUri);
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
 
-            query["q"] = searchString;
+            query["q"] = string.IsNullOrWhiteSpace(searchString) ? "Поесть" : searchString;
 
             query["region_id"] = 1.ToString();
             query["fields"] = string.Join(",", _fields);
