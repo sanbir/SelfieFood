@@ -12,28 +12,43 @@ using SelfieFood.Common;
 
 namespace SelfieFood.Web.Controllers
 {
+    using System.Collections.Generic;
+
     using DoubleGisApi;
 
     public class FoodApiController : ApiController
     {
+        //[HttpGet]
+        //[HttpPost]
+        //public async Task<ResturantsResponse> PostPhoto()
+        //{
+        //    var data = await this.Request.Content.ReadAsByteArrayAsync();
+        //    var faces = GetFaces(data);
+        //    var emotions = GetEmotions(data);
+
+        //    var searchRequest = SearchRequestEvaluator.Evaluate(faces, emotions);
+        //    var dataProvider = new DoubleGisDataProvider();
+        //    var firms = dataProvider.GetResturants(searchRequest.SearchQuery, searchRequest.Criteria);
+
+        //    // TODO: дописать АПИ
+        //    return new ResturantsResponse
+        //    {
+        //        People = faces.Select(f=>f.FaceAttributes).ToArray(),
+        //        Variants = { }
+        //    };
+        //}
+
         [HttpGet]
         [HttpPost]
-        public async Task<ResturantsResponse> PostPhoto()
+        public async Task<ResturantsResponse> Test()
         {
-            var data = await this.Request.Content.ReadAsByteArrayAsync();
-            var faces = GetFaces(data);
-            var emotions = GetEmotions(data);
 
-            var searchRequest = SearchRequestEvaluator.Evaluate(faces, emotions);
+            var searchRequest = new SearchRequest(new List<string>() { FoodServiceAttribute.KidsMenu });
             var dataProvider = new DoubleGisDataProvider();
             var firms = dataProvider.GetResturants(searchRequest.SearchQuery, searchRequest.Criteria);
 
             // TODO: дописать АПИ
-            return new ResturantsResponse
-            {
-                People = faces.Select(f=>f.FaceAttributes).ToArray(),
-                Variants = { }
-            };
+            return new ResturantsResponse { };
         }
 
         private static Face[] GetFaces(byte[] image)
