@@ -20,8 +20,12 @@ namespace SelfieFood.DoubleGisApi
     [DataContract]
     public class Firm
     {
+        [DataMember(Name = "id")]
+        public string Id { get; set; }
         [DataMember(Name = "name")]
         public string Name { get; set; }
+        [DataMember(Name = "address_name")]
+        public string AddressName { get; set; }
         [DataMember(Name = "reviews")]
         public Reviews Reviews { get; set; }
         [DataMember(Name = "external_content")]
@@ -32,7 +36,7 @@ namespace SelfieFood.DoubleGisApi
     public class Reviews
     {
         [DataMember(Name = "rating")]
-        public string Rating { get; set; }
+        public float Rating { get; set; }
         [DataMember(Name = "recommendation_count")]
         public string Count { get; set; }
     }

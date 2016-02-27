@@ -52,6 +52,10 @@
       <Project>{633840BF-8068-4526-A6AB-548024E674BF}</Project>
       <Name>SelfieFood.DoubleGisApi</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SelfieFood.Common\SelfieFood.Common.csproj">
+      <Project>{E587D904-10A5-4571-B35E-D578DB925059}</Project>
+      <Name>SelfieFood.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SelfieFood.HowOldApi\SelfieFood.HowOldApi.csproj">
       <Project>{709e8fc8-e942-48f5-92d5-b506ae3fdfbb}</Project>
       <Name>SelfieFood.HowOldApi</Name>
