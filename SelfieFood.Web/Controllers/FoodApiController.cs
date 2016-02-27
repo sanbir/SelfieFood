@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +12,7 @@ using Microsoft.ProjectOxford.Face;
 using Microsoft.ProjectOxford.Face.Contract;
 
 using SelfieFood.Common;
+using SelfieFood.Web.CommentGeneration;
 
 namespace SelfieFood.Web.Controllers
 {
@@ -24,14 +27,18 @@ namespace SelfieFood.Web.Controllers
             var data = await this.Request.Content.ReadAsByteArrayAsync();
             var faces = GetFaces(data);
             var emotions = GetEmotions(data);
-
+            var comment = await new CommentGenerator().GetComment(faces, emotions);
 
             var searchRequest = SearchRequestEvaluator.Evaluate(faces, emotions);
             var dataProvider = new DoubleGisDataProvider();
             var firms = dataProvider.GetFirms(searchRequest.SearchQuery, searchRequest.Criteria);
 
             // TODO: дописать АПИ
-            return new ResturantsResponse { };
+            return new ResturantsResponse
+            {
+                Comment = comment,
+                Variants = {}
+            };
         }
 
         private static Face[] GetFaces(byte[] image)

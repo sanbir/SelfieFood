@@ -66,9 +66,9 @@ namespace SelfieFood.SilverlightApp
 
                 var uri = new Uri("http://10.54.5.85:57164/Api/FoodApi/PostPhoto");
 
-                //var data = awai                
-                //var request = (HttpWebRequest)WebRequest.CreateHttp(uri);
-t GetHttpPostResponse(request, bytes);
+                var request = (HttpWebRequest)WebRequest.CreateHttp(uri);
+
+                var data = await GetHttpPostResponse(request, bytes);
                 _btnPredict.IsEnabled = true;
             }
         }

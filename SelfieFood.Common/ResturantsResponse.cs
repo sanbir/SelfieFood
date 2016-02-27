@@ -2,6 +2,10 @@
 {
     public class ResturantsResponse
     {
+        public const string NoPeopleFoundMessage = "Лиц на фото не найдено";
+
+        public string Comment { get; set; }
+
         public RestrauntInfo[] Variants { get; set; }
     }
 
