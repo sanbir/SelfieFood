@@ -41,6 +41,8 @@ namespace SelfieFood.SilverlightApp
         //}
         private async void btnCapture_Click(object sender, RoutedEventArgs e)
         {
+            NavigationService.Navigate(new Uri("/Results.xaml", UriKind.Relative));
+            return;
             var camera = new CameraCaptureTask();
             camera.Completed += camera_Completed;
             camera.Show();
