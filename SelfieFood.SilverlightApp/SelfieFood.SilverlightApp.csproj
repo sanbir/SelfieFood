@@ -110,7 +110,6 @@
       <DependentUpon>Results.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\PeopleViewModel.cs" />
-    <Compile Include="ViewModels\ViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
