@@ -1,4 +1,5 @@
 ﻿using System;
+using Windows.Devices.Sensors;
 using Windows.Media.Capture;
 using Windows.Media.MediaProperties;
 using Windows.Storage;
@@ -27,23 +28,39 @@ namespace SelfieFood.App
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
 
+            Start_Capture_Preview_Click();
         }
        
         //Declare MediaCapture object globally
-        Windows.Media.Capture.MediaCapture captureManager;
-
+        
        
-        async private void Start_Capture_Preview_Click(object sender, RoutedEventArgs e)
+        async private void Start_Capture_Preview_Click()
         {
-            captureManager = new MediaCapture();        //Define MediaCapture object
+            var captureManager = App.CaptureManager;        //Define MediaCapture object            
             await captureManager.InitializeAsync();     //Initialize MediaCapture and 
             capturePreview.Source = captureManager;     //Start preiving on CaptureElement
-            await captureManager.StartPreviewAsync();   //Start camera capturing 
-        }
+            captureManager.SetPreviewRotation(VideoRotation.Clockwise90Degrees);
 
-        async private void Stop_Capture_Preview_Click(object sender, RoutedEventArgs e)
-        {
-            await captureManager.StopPreviewAsync();    //stop camera capturing
+            await captureManager.StartPreviewAsync();   //Start camera capturing 
+
+            SimpleOrientationSensor sensor = SimpleOrientationSensor.GetDefault();
+            sensor.OrientationChanged += (s, arg) =>
+            {
+                switch (arg.Orientation)
+                {
+                    case SimpleOrientation.Rotated90DegreesCounterclockwise:
+                        captureManager.SetPreviewRotation(VideoRotation.None);
+                        break;
+                    case SimpleOrientation.Rotated180DegreesCounterclockwise:
+                    case SimpleOrientation.Rotated270DegreesCounterclockwise:
+                        captureManager.SetPreviewRotation(VideoRotation.Clockwise180Degrees);
+                        break;
+                    default:
+                        captureManager.SetPreviewRotation(VideoRotation.Clockwise90Degrees);
+                        break;
+                }
+            };
+
         }
 
         async private void Capture_Photo_Click(object sender, RoutedEventArgs e)
@@ -55,7 +72,7 @@ namespace SelfieFood.App
             StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync("Photo.jpg",CreationCollisionOption.ReplaceExisting);
 
             // take photo and store it on file location.
-            await captureManager.CapturePhotoToStorageFileAsync(imgFormat, file);
+            await App.CaptureManager.CapturePhotoToStorageFileAsync(imgFormat, file);
 
             //// create storage file in Picture Library
             //StorageFile file = await KnownFolders.PicturesLibrary.CreateFileAsync("Photo.jpg",CreationCollisionOption.GenerateUniqueName);
@@ -63,8 +80,6 @@ namespace SelfieFood.App
             // Get photo as a BitmapImage using storage file path.
              BitmapImage bmpImage = new BitmapImage(new Uri(file.Path));
 
-            // show captured image on Image UIElement.
-             imagePreivew.Source = bmpImage;
 
         }
 

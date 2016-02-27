@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -14,9 +15,21 @@ namespace SelfieFood.Web.Controllers
 {
     public class FoodApiController : ApiController
     {
-        public ResturantsResponse PostPhoto()
+        [HttpGet]
+        [HttpPost]
+        public async Task<ResturantsResponse> PostPhoto()
         {
-            return null;
+            var data = await this.Request.Content.ReadAsByteArrayAsync();
+            var faces = GetFaces(data);
+            var emotions = GetEmotions(data);
+
+
+            var faceAttrs = faces.First().FaceAttributes;            
+
+            return new ResturantsResponse()
+            {
+                Name = string.Format("Age: {0}, Sex: {1}, Happiness:{2}", faceAttrs.Age, faceAttrs.Gender, emotions.First().Scores.Happiness)
+            };
         }
 
         private Face[] GetFaces(Byte[] image)

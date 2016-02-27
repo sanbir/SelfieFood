@@ -15,15 +15,10 @@
         <Button x:Name="Capture_Button_Copy" Click="Capture_Button_Click" Height="72" Width="156" Content="Capture" Margin="26,548,0,20"/>-->
 
 
-        <CaptureElement x:Name="capturePreview" Margin="0,0,0,378" />
-        <Image x:Name="imagePreivew" Margin="0,262,0,115" />
+        <CaptureElement x:Name="capturePreview" Margin="0"  />
 
 
-
-        <!--<Button Click="Save_Picture_librory" Content="Save Picture" Margin="229,580,0,0" Height="60" Width="161" />-->
-        <Button Click="Start_Capture_Preview_Click" Content="Start Capture Preview" Margin="8,529,0,51" Height="60" Width="221" />
         <Button Click="Capture_Photo_Click" Content="Capture Photo" Margin="243,529,0,1" Width="147" Height="110"/>
-        <Button Click="Stop_Capture_Preview_Click" Content="Stop Capture Preview" Margin="10,580,0,0" Height="60" Width="219"/>
 
 
 
