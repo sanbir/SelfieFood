@@ -72,6 +72,7 @@ namespace SelfieFood.SilverlightApp
 
             _peopleViewModel.PeopleViewModels =
                 resp.People.Select(p => new PersonViewModel(GetStyle(p), Convert.ToInt32(p.Age))).ToList();
+            AgeDiapasonText.Text = _peopleViewModel.AgeDiapason;
         }
 
         private void OnPlayTap(object sender, GestureEventArgs e)

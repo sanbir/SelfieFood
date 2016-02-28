@@ -91,7 +91,7 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <TextBlock Text="{Binding Path=AgeDiapason}"/>
+                <TextBlock x:Name="AgeDiapasonText"/>
                 
                 <!--<ContentControl Style="{StaticResource Child}" Width="30" Height="30" Margin="2"/>
                 <ContentControl Style="{StaticResource Man}" Width="30" Height="30" Margin="2"/>
