@@ -129,7 +129,7 @@
                                    FontSize="{StaticResource PhoneFontSizeMediumLarge}" 
                                    FontFamily="{StaticResource PhoneFontFamilySemiBold}" 
                                    Foreground="#3bb23b"/>
-                                <TextBlock Text="{Binding DateText}" 
+                                <TextBlock Text="" 
                                    Grid.Row="2"
                                    FontSize="{StaticResource PhoneFontSizeSmall}" 
                                    Foreground="{StaticResource PhoneSubtleBrush}"
