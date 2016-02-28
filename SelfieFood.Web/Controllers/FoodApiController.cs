@@ -36,9 +36,15 @@ namespace SelfieFood.Web.Controllers
             var firms = searchRequests.Select(x => dataProvider.GetResturants(x.SearchQuery, x.Criteria));
             var defaultFirms = dataProvider.GetResturants("", Enumerable.Empty<string>());
 
-            return new ResturantsResponse()
+            var pickedResults = Pick(firms.SelectMany(x => x.Variants), 5).ToArray();
+            var pickedResultNames = pickedResults.Select(x => x.Name);
+
+            return new ResturantsResponse
             {
-                Variants = Pick(firms.SelectMany(x=>x.Variants), 5).Union(Pick(defaultFirms.Variants, 2)).DistinctBy(x=>x.Name).ToArray(),
+                Variants =
+                    pickedResults.Union(Pick(defaultFirms.Variants.Where(x => !pickedResultNames.Contains(x.Name)), 2))
+                        .DistinctBy(x => x.Name)
+                        .ToArray(),
                 People = faces.Select(f => f.FaceAttributes).ToArray()
             };
         }
@@ -61,21 +67,21 @@ namespace SelfieFood.Web.Controllers
             return Task.Run(() => client.RecognizeAsync(new MemoryStream(image))).Result;
         }
 
-        private IEnumerable<RestrauntInfo> Pick(IEnumerable<RestrauntInfo> v, int n)
+        private IEnumerable<RestrauntInfo> Pick(IEnumerable<RestrauntInfo> variants, int numberToPick)
         {
             var result = new List<RestrauntInfo>();
-            var t = v.ToList();
+            var copyOfVariants = variants.ToList();
 
             var counter = 0;
-            while (counter < n && t.Count > 0)
+            while (counter < numberToPick && copyOfVariants.Count > 0)
             {
                 var random = new Random();
-                foreach (var resturantsResponse in t.ToArray())
+                foreach (var resturantsResponse in copyOfVariants.ToArray())
                 {
                     if (random.Next(1, 5) > 3)
                     {
                         result.Add(resturantsResponse);
-                        t.Remove(resturantsResponse);
+                        copyOfVariants.Remove(resturantsResponse);
                         counter++;
                     }
                 }
