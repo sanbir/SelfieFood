@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Tasks;
 using Newtonsoft.Json;
 using SelfieFood.Dto.SelfieFood.Dto;
 using SelfieFood.SilverlightApp.ViewModels;
@@ -62,7 +63,8 @@ namespace SelfieFood.SilverlightApp
                         Image = new Uri(item.ImageUrl, UriKind.Absolute),
                         Title = item.Name,
                         Index = index,
-                        Likes = item.FlampFeedbacks == null ? 0 : item.FlampFeedbacks.Length
+                        Likes = item.FlampFeedbacks == null ? 0 : item.FlampFeedbacks.Length,
+                        Url = item.Url
                     };
 
                     _itemsSource.Add(model);
@@ -77,7 +79,9 @@ namespace SelfieFood.SilverlightApp
 
         private void OnPlayTap(object sender, GestureEventArgs e)
         {
-            MessageBox.Show("Встань и иди!");
+            WebBrowserTask namewhatevz = new WebBrowserTask();
+            namewhatevz.Uri = new Uri(((ViewModel)slideView.SelectedItem).Url, UriKind.Absolute);
+            namewhatevz.Show();
         }
 
         private Style GetStyle(FaceAttributes faceAttributes)
@@ -134,20 +138,6 @@ namespace SelfieFood.SilverlightApp
             set;
         }
 
-        public string DateText
-        {
-            get
-            {
-                return this.Date.ToString("MMMM dd, yyyy");
-            }
-        }
-
-        public DateTime Date
-        {
-            get;
-            set;
-        }
-
         public string Title
         {
             get;
@@ -159,5 +149,7 @@ namespace SelfieFood.SilverlightApp
             get;
             set;
         }
+
+        public string Url { get; set; }
     }
 }
