@@ -36,17 +36,22 @@ namespace SelfieFood.Web.Controllers
             var firms = searchRequests.Select(x => dataProvider.GetResturants(x.SearchQuery, x.Criteria));
             var defaultFirms = dataProvider.GetResturants("", Enumerable.Empty<string>());
 
-            var pickedResults = Pick(firms.SelectMany(x => x.Variants), 5).ToArray();
+            var random = new Random();
+            var pickedResults = Pick(firms.SelectMany(x => x.Variants), random.Next(4,8)).ToArray();
             var pickedResultNames = pickedResults.Select(x => x.Name);
 
-            return new ResturantsResponse
+            var defaultItems = Pick(defaultFirms.Variants.Where(x => !pickedResultNames.Contains(x.Name)), random.Next(2, 4));
+            
+            var result = new ResturantsResponse
             {
                 Variants =
-                    pickedResults.Union(Pick(defaultFirms.Variants.Where(x => !pickedResultNames.Contains(x.Name)), 2))
+                    pickedResults.Concat(defaultItems)
                         .DistinctBy(x => x.Name)
                         .ToArray(),
                 People = faces.Select(f => f.FaceAttributes).ToArray()
             };
+
+            return result;
         }
 
         private static Face[] GetFaces(byte[] image)
@@ -83,6 +88,10 @@ namespace SelfieFood.Web.Controllers
                         result.Add(resturantsResponse);
                         copyOfVariants.Remove(resturantsResponse);
                         counter++;
+                        if (counter >= numberToPick)
+                        {
+                            return result;
+                        }
                     }
                 }
             }
