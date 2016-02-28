@@ -53,6 +53,20 @@ namespace SelfieFood.SilverlightApp
             if (resp == null)
                 return;
 
+            if (resp.People == null || resp.People.Length == 0)
+            {
+                MessageBoxResult result =
+                    MessageBox.Show("На фото люди не обнаружены. Пожалуйста, попробуйте еще раз.",
+                        "Не удалось", MessageBoxButton.OK);
+
+                if (result == MessageBoxResult.OK)
+                {
+                    NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+                }
+
+                return;
+            }
+
             var index = 1;
             foreach (var item in resp.Variants.Where(x => !string.IsNullOrWhiteSpace(x.ImageUrl)))
             {
