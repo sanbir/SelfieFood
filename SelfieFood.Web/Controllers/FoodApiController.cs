@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 
 using Microsoft.ProjectOxford.Emotion;
@@ -24,16 +25,14 @@ namespace SelfieFood.Web.Controllers
             var faces = GetFaces(data);
             var emotions = GetEmotions(data);
 
+            string lat;
+            Request.Headers.TryGetValues("Lat")
+            var geoLoc = new GeoLocationParameters() {Lat =[@"Lat"], Lon = Request.Headers["Lon"]};
+
             var searchRequest = SearchRequestEvaluator.Evaluate(faces, emotions);
             var dataProvider = new DoubleGisDataProvider();
-            var firms = dataProvider.GetResturants(searchRequest.SearchQuery, searchRequest.Criteria);
+            return dataProvider.GetResturants(searchRequest.SearchQuery, searchRequest.Criteria);
 
-            // TODO: дописать АПИ
-            return new ResturantsResponse
-            {
-                People = faces.Select(f=>f.FaceAttributes).ToArray(),
-                Variants = { }
-            };
         }
 
         private static Face[] GetFaces(byte[] image)

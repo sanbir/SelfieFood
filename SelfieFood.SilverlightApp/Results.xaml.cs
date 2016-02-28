@@ -20,22 +20,27 @@ namespace SelfieFood.SilverlightApp
         {
             InitializeComponent();
 
+            Loaded += Results_Loaded;
 
+
+        }
+
+        void Results_Loaded(object sender, RoutedEventArgs e)
+        {
             LoadData();
             slideView.DataContext = _itemsSource;
         }
 
- 
 
         private void LoadData()
         {
 
-            ResturantsResponse  resp = null;
+            ResturantsResponse resp = null;
             string parameter;
             if (NavigationContext.QueryString.TryGetValue("d", out parameter))
             {
                 resp = JsonConvert.DeserializeObject<ResturantsResponse>(parameter);
-                
+
             }
 
             if (resp == null)
@@ -53,7 +58,7 @@ namespace SelfieFood.SilverlightApp
                         Image = new Uri(item.ImageUrl, UriKind.Absolute),
                         Title = item.Name,
                         Index = index,
-                        Likes = item.FlampFeedbacks.Length
+                        Likes = item.FlampFeedbacks == null ? 0 : item.FlampFeedbacks.Length
                     };
 
                     _itemsSource.Add(model);

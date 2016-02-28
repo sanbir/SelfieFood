@@ -16,7 +16,7 @@ namespace SelfieFood.SilverlightApp
 {
     public partial class MainPage : PhoneApplicationPage
     {
-       
+
         // Constructor
         public MainPage()
         {
@@ -65,14 +65,14 @@ namespace SelfieFood.SilverlightApp
 
                     var bytes = r.ReadBytes((int)e.ChosenPhoto.Length);
 
-                    var uri = new Uri("http://10.54.5.85:57164/Api/FoodApi/PostPhoto");
+                    var uri = new Uri("http://uk-rnd-391:57164/Api/FoodApi/PostPhoto");
 
                     var request = WebRequest.CreateHttp(uri);
 
 
                     var data = await GetHttpPostResponse(request, bytes);
 
-                    NavigationService.Navigate(new Uri("/Results.xaml?d="+data, UriKind.Relative));
+                    NavigationService.Navigate(new Uri("/Results.xaml?d=" + data, UriKind.Relative));
                 }
             }
         }
@@ -93,6 +93,7 @@ namespace SelfieFood.SilverlightApp
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded";
             request.ContentLength = requestBody.Length;
+            request.AllowReadStreamBuffering = true;
             // ASYNC: using awaitable wrapper to get request stream
             using (var postStream = await request.GetRequestStreamAsync())
             {
@@ -107,18 +108,25 @@ namespace SelfieFood.SilverlightApp
                 var response = (HttpWebResponse)await request.GetResponseAsync();
                 if (response != null)
                 {
-                    var reader = new StreamReader(response.GetResponseStream());
-                    // ASYNC: using StreamReader's async method to read to end, in case
-                    // the stream i slarge.
-                    received = await reader.ReadToEndAsync();
+                    using (var reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        ;
+                        // ASYNC: using StreamReader's async method to read to end, in case
+                        // the stream i slarge.
+                        received = await reader.ReadToEndAsync();
+                    }
+
                 }
             }
             catch (WebException we)
             {
-                var reader = new StreamReader(we.Response.GetResponseStream());
-                string responseString = reader.ReadToEnd();
-                Debug.WriteLine(responseString);
-                return responseString;
+                using (var reader = new StreamReader(we.Response.GetResponseStream()))
+                {
+                    var responseString = reader.ReadToEnd();
+                    Debug.WriteLine(responseString);
+                    return responseString;
+                }
+
             }
 
             return received;

@@ -37,7 +37,7 @@ namespace SelfieFood.DoubleGisApi
                     Name = item.Name,
                     DoubleGisCardUrl = GetCardDoubleGisUrl(firmId),
                     CardFlampUrl = GetCardFlampUrl(firmId),
-                    ImageUrl = item.Album.Select(x => x.MainPhotoUrl?.ToString()).FirstOrDefault(),
+                    ImageUrl = item.Album.Select(x => x.MainPhotoUrl != null ? x.MainPhotoUrl.ToString() : null).FirstOrDefault(),
                     FlampOverallRating = item.Reviews.Rating,
                     Address = item.AddressName,
                 });
@@ -68,13 +68,13 @@ namespace SelfieFood.DoubleGisApi
 
             if (geoLocationParameters != null)
             {
-                query["point"] = $"{geoLocationParameters.Lon},{geoLocationParameters.Lat}";
+                query["point"] = string.Format("{0},{1}", geoLocationParameters.Lon, geoLocationParameters.Lat);
                 query["radius"] = geoLocationParameters.Radius.ToString();
             }
 
             foreach (var critery in criteries)
             {
-                query.Add($"attr[{critery}]", true.ToString());
+                query.Add(string.Format("attr[{0}]", critery), true.ToString());
             }
 
             //TODO: Исправить проблемы с кодировкой
@@ -101,7 +101,7 @@ namespace SelfieFood.DoubleGisApi
             {
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    throw new Exception($"Server error (HTTP {response.StatusCode}: {response.StatusDescription}).");
+                    throw new Exception(string.Format("Server error (HTTP {0}: {1}).", response.StatusCode, response.StatusDescription));
                 }
                 var jsonSerializer = new DataContractJsonSerializer(typeof(Response));
                 var objResponse = jsonSerializer.ReadObject(response.GetResponseStream());
