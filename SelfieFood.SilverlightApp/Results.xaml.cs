@@ -75,7 +75,7 @@ namespace SelfieFood.SilverlightApp
                     Image = new Uri(item.ImageUrl, UriKind.Absolute),
                     Title = item.Name,
                     Index = index,
-                    Likes = Convert.ToInt32(item.FlampOverallRating),
+                    Likes = item.FlampOverallRating.ToString("F2"),
                     Url = item.DoubleGisCardUrl,
                     FlampUrl = item.CardFlampUrl,
                     Total = resp.Variants.Length
@@ -169,7 +169,7 @@ namespace SelfieFood.SilverlightApp
             set;
         }
 
-        public int Likes
+        public string Likes
         {
             get;
             set;
