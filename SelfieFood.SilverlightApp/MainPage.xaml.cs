@@ -16,7 +16,7 @@ namespace SelfieFood.SilverlightApp
 {
     public partial class MainPage : PhoneApplicationPage
     {
-
+       
         // Constructor
         public MainPage()
         {
@@ -65,7 +65,8 @@ namespace SelfieFood.SilverlightApp
 
                     var bytes = r.ReadBytes((int)e.ChosenPhoto.Length);
 
-                    var uri = new Uri("http://uk-rnd-391:57164/Api/FoodApi/PostPhoto");
+                    var uri = new Uri("http://selfiefoodweb20160228034641.azurewebsites.net/Api/FoodApi/PostPhoto");
+                    //var uri = new Uri("http://uk-rnd-391:57164/Api/FoodApi/PostPhoto");
 
                     var request = WebRequest.CreateHttp(uri);
 
@@ -86,8 +87,8 @@ namespace SelfieFood.SilverlightApp
 
             if (coord != null)
             {
-                request.Headers["Lat"] = coord.Latitude.ToString(CultureInfo.InvariantCulture);
-                request.Headers["Lon"] = coord.Longitude.ToString(CultureInfo.InvariantCulture);
+                //request.Headers["Lat"] = coord.Latitude.ToString(CultureInfo.InvariantCulture);
+                //request.Headers["Lon"] = coord.Longitude.ToString(CultureInfo.InvariantCulture);
             }
 
             request.Method = "POST";
@@ -111,21 +112,21 @@ namespace SelfieFood.SilverlightApp
                     using (var reader = new StreamReader(response.GetResponseStream()))
                     {
                         ;
-                        // ASYNC: using StreamReader's async method to read to end, in case
-                        // the stream i slarge.
-                        received = await reader.ReadToEndAsync();
-                    }
-
+                    // ASYNC: using StreamReader's async method to read to end, in case
+                    // the stream i slarge.
+                    received = await reader.ReadToEndAsync();
                 }
+
+            }
             }
             catch (WebException we)
             {
                 using (var reader = new StreamReader(we.Response.GetResponseStream()))
                 {
                     var responseString = reader.ReadToEnd();
-                    Debug.WriteLine(responseString);
-                    return responseString;
-                }
+                Debug.WriteLine(responseString);
+                return responseString;
+            }
 
             }
 

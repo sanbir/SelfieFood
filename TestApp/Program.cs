@@ -10,7 +10,7 @@ namespace TestApp
         static void Main(string[] args)
         {
             var doubleGisProvider = new DoubleGisDataProvider();
-            var restaurants = doubleGisProvider.GetResturants("Поесть", new[] { FoodServiceAttribute.LiveMusic });
+            var restaurants = doubleGisProvider.GetResturants("Поесть", new[] { FoodServiceAttribute.KidsMenu });
             var bars = doubleGisProvider.GetResturants("Бары / Пабы", new string[] { }, new GeoLocationParameters()
             {
                 Lat = "55.022973",

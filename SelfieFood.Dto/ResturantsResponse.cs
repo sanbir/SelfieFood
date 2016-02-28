@@ -19,8 +19,14 @@ namespace SelfieFood.Dto
             public double Age { get; set; }
 
             public string Gender { get; set; }
+
+            public FacialHair FacialHair { get; set; }
         }
 
+        public class FacialHair
+        {
+            public double Beard { get; set; }
+        }
 
         public class ResturantsResponse
         {

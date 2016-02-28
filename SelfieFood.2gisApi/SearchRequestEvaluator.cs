@@ -59,20 +59,20 @@ namespace SelfieFood.DoubleGisApi
         {
             var result = new List<string>();
 
-            result.Add(FoodServiceAttribute.Wifi);
-
-            if (faces.AnyKids())
+            var minAge = faces.Min(x => x.FaceAttributes.Age);
+            if (minAge < 9)
             {
-                result.AddRange(Criteria.ForKids);
+                result.AddRange(new[] { FoodServiceAttribute.KidsRoom });
             }
 
-            if (faces.GirlsOnly())
+            if (minAge < 14)
             {
-                result.AddRange(Criteria.ForGirlsCompany);
+                result.AddRange(new[] { FoodServiceAttribute.KidsMenu });
             }
-            else if (faces.BoysOnly())
+
+            if (faces.Any(x => x.FaceAttributes.Age > 10 && x.FaceAttributes.Age < 35))
             {
-                result.AddRange(Criteria.ForBoysCompany);
+                result.Add(FoodServiceAttribute.Wifi);
             }
 
             return new SearchRequest(result);
@@ -87,25 +87,24 @@ namespace SelfieFood.DoubleGisApi
                 result.AddRange(Criteria.ForKids);
             }
 
-            var age = faces.First().FaceAttributes.Age;
-            if (age > 10 && age < 35)
+            if (faces.Any(x => x.FaceAttributes.Age > 10 && x.FaceAttributes.Age < 35))
             {
                 result.Add(FoodServiceAttribute.Wifi);
             }
 
-            return new SearchRequest(Criteria.ForDate);
+            return new SearchRequest();
         }
 
         private static SearchRequest ForPerson(IReadOnlyCollection<Face> faces, IReadOnlyCollection<Emotion> emotions)
         {
             var result = new List<string>();
 
-            if (faces.AnyKids())
+            var age = faces.First().FaceAttributes.Age;
+            if (age < 14)
             {
-                result.AddRange(Criteria.ForKids);
+                result.AddRange(new[] { FoodServiceAttribute.KidsMenu, FoodServiceAttribute.KidsRoom });
             }
 
-            var age = faces.First().FaceAttributes.Age;
             if (age > 10 && age < 35)
             {
                 result.Add(FoodServiceAttribute.Wifi);

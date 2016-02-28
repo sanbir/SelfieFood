@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
-using System.Runtime.Serialization.Json;
 using System.Web;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SelfieFood.Common;
 
 namespace SelfieFood.DoubleGisApi
@@ -14,19 +16,22 @@ namespace SelfieFood.DoubleGisApi
         private const string CardDoubleGisTemplate = "https://2gis.ru/novosibirsk/search/{0}/firm/{1}";
         private const string CardFlampTemplate = "http://novosibirsk.flamp.ru/firm/{0}";
         private const string UserKey = "ruffzo9376";
+        private const string DefaultsSearchString = "Поесть";
+        private const string DefaultRegionId = "1";
+        private const string PageSize  = "10";
+
         private readonly string[] _fields = { "items.reviews", "items.external_content" };
 
         public ResturantsResponse GetResturants(string searchString, IEnumerable<string> criteries, GeoLocationParameters geoLocationParameters = null)
         {
             var uri = CreateUri(searchString, criteries, geoLocationParameters);
-            var response = MakeRequest(uri);
 
-            var resturants = new ResturantsResponse();
+            var resturants = MakeRequest(uri);
             
-            if (response.Result == null)
+            var resturantsResponse = new ResturantsResponse()
             {
-                return resturants;
-            }
+                Variants = resturants.ToArray()
+            };
 
             var firms = new List<RestrauntInfo>();
             foreach (var item in response.Result.Items)
@@ -43,28 +48,19 @@ namespace SelfieFood.DoubleGisApi
                 });
             }
 
-            resturants.Variants = firms.ToArray();
-
-            return resturants;
-        }
-
-        private static string GetFirmId(string id)
-        {
-            return id.Substring(0, id.IndexOf("_", StringComparison.Ordinal));
-        }
-
         private Uri CreateUri(string searchString, IEnumerable<string> criteries, GeoLocationParameters geoLocationParameters)
         {
             var uriBuilder = new UriBuilder(ApiUri);
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
 
-            query["q"] = string.IsNullOrWhiteSpace(searchString) ? "Поесть" : searchString;
-
-            query["region_id"] = 1.ToString();
-            query["fields"] = string.Join(",", _fields);
+            query["q"] = string.IsNullOrWhiteSpace(searchString) ? DefaultsSearchString : searchString;
+            query["region_id"] = DefaultRegionId;
             query["key"] = UserKey;
+
+            query["fields"] = string.Join(",", _fields);
             query["sort"] = "flamp_rating";
             query["work_time"] = "now";
+            query["page_size"] = PageSize;
 
             if (geoLocationParameters != null)
             {
@@ -83,31 +79,60 @@ namespace SelfieFood.DoubleGisApi
             return uriBuilder.Uri;
         }
 
-        private string GetCardDoubleGisUrl(string id)
+        private static IEnumerable<RestrauntInfo> MakeRequest(Uri uri)
         {
-            // NOTE: Нужно обязательно указать запрос
-            return string.Format(CardDoubleGisTemplate, "Поесть", id);
+            var request = (HttpWebRequest)WebRequest.Create(uri);
+
+            using (var response = request.GetResponse())
+            {
+                using (var stream = response.GetResponseStream())
+        {
+                    if (stream == null)
+                        return new RestrauntInfo[] {};
+
+                    var reader = new StreamReader(stream);
+
+                    var str = reader.ReadToEnd();
+
+                    return Parse(str);
+                }
+            }
         }
+
+        private static IEnumerable<RestrauntInfo> Parse(string str)
+        {
+            var googleSearch = JObject.Parse(str);
+            var results = googleSearch["result"]["items"].Children().ToList();
+
+            return (from result in results
+                select JsonConvert.DeserializeObject<Firm>(result.ToString())
+                into searchResult
+                let firmId = GetFirmId(searchResult.Id)
+                select new RestrauntInfo()
+            {
+                    Name = searchResult.Name,
+                    DoubleGisCardUrl = GetCardDoubleGisUrl(firmId),
+                    CardFlampUrl = GetCardFlampUrl(firmId),
+                    ImageUrl = searchResult.Album.Select(x => x.MainPhotoUrl?.ToString()).FirstOrDefault(),
+                    FlampOverallRating = searchResult.Reviews.Rating,
+                    Address = searchResult.AddressName
+                }).ToList();
+        }
+
+        private static string GetFirmId(string id)
+                {
+            return id.Substring(0, id.IndexOf("_", StringComparison.Ordinal));
+                }
+
+        private static string GetCardDoubleGisUrl(string id)
+        {
+            // NOTE: Нужно обязательно указать любой запрос
+            return string.Format(CardDoubleGisTemplate, "SelfieFood", id);
+            }
 
         private static string GetCardFlampUrl(string id)
         {
             return string.Format(CardFlampTemplate, id);
-        }
-
-        private static Response MakeRequest(Uri uri)
-        {
-            var request = WebRequest.Create(uri) as HttpWebRequest;
-            using (var response = request.GetResponse() as HttpWebResponse)
-            {
-                if (response.StatusCode != HttpStatusCode.OK)
-                {
-                    throw new Exception(string.Format("Server error (HTTP {0}: {1}).", response.StatusCode, response.StatusDescription));
-                }
-                var jsonSerializer = new DataContractJsonSerializer(typeof(Response));
-                var objResponse = jsonSerializer.ReadObject(response.GetResponseStream());
-                var jsonResponse = objResponse as Response;
-                return jsonResponse;
-            }
         }
     }
 }

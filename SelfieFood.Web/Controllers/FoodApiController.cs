@@ -13,6 +13,8 @@ using SelfieFood.Common;
 
 namespace SelfieFood.Web.Controllers
 {
+    using System.Collections.Generic;
+
     using DoubleGisApi;
 
     public class FoodApiController : ApiController
@@ -31,8 +33,10 @@ namespace SelfieFood.Web.Controllers
 
             var searchRequest = SearchRequestEvaluator.Evaluate(faces, emotions);
             var dataProvider = new DoubleGisDataProvider();
-            return dataProvider.GetResturants(searchRequest.SearchQuery, searchRequest.Criteria);
+            var firms = dataProvider.GetResturants(string.Empty, null);
+            firms.People = faces.Select(f => f.FaceAttributes).ToArray();
 
+            return firms;
         }
 
         private static Face[] GetFaces(byte[] image)
