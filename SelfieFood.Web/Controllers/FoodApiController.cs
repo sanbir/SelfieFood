@@ -2,9 +2,8 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
-
+using Microsoft.Ajax.Utilities;
 using Microsoft.ProjectOxford.Emotion;
 using Microsoft.ProjectOxford.Emotion.Contract;
 using Microsoft.ProjectOxford.Face;
@@ -32,14 +31,14 @@ namespace SelfieFood.Web.Controllers
             //Request.Headers.TryGetValues("Lat")
             //var geoLoc = new GeoLocationParameters() {Lat =[@"Lat"], Lon = Request.Headers["Lon"]};
 
-            var searchRequest = SearchRequestEvaluator.Evaluate(faces, emotions);
+            var searchRequests = SearchRequestEvaluator.Evaluate(faces, emotions);
             var dataProvider = new DoubleGisDataProvider();
-            ResturantsResponse firms = dataProvider.GetResturants(searchRequest.SearchQuery, searchRequest.Criteria);
-            ResturantsResponse defaultFirms = dataProvider.GetResturants("", Enumerable.Empty<string>());
+            var firms = searchRequests.Select(x => dataProvider.GetResturants(x.SearchQuery, x.Criteria));
+            var defaultFirms = dataProvider.GetResturants("", Enumerable.Empty<string>());
 
             return new ResturantsResponse()
             {
-                Variants = Pick(firms.Variants, 5).Union(Pick(defaultFirms.Variants, 2)).ToArray(),
+                Variants = Pick(firms.SelectMany(x=>x.Variants), 5).Union(Pick(defaultFirms.Variants, 2)).DistinctBy(x=>x.Name).ToArray(),
                 People = faces.Select(f => f.FaceAttributes).ToArray()
             };
         }
@@ -73,7 +72,7 @@ namespace SelfieFood.Web.Controllers
                 var random = new Random();
                 foreach (var resturantsResponse in t.ToArray())
                 {
-                    if (random.Next(1, 4) > 2)
+                    if (random.Next(1, 5) > 3)
                     {
                         result.Add(resturantsResponse);
                         t.Remove(resturantsResponse);

@@ -37,7 +37,7 @@ namespace SelfieFood.DoubleGisApi
 
         }
 
-        public static SearchRequest Evaluate(IReadOnlyCollection<Face> faces, IReadOnlyCollection<Emotion> emotions)
+        public static IEnumerable<SearchRequest> Evaluate(IReadOnlyCollection<Face> faces, IReadOnlyCollection<Emotion> emotions)
         {
             if (faces.Count > 2)
             {
@@ -52,80 +52,122 @@ namespace SelfieFood.DoubleGisApi
                 return ForPerson(faces, emotions);
             }
 
-            return new SearchRequest();
+            return new SearchRequest[0];
         }
 
-        private static SearchRequest ForGroup(IReadOnlyCollection<Face> faces, IReadOnlyCollection<Emotion> emotions)
+        private static IEnumerable<SearchRequest> ForGroup(IReadOnlyCollection<Face> faces, IReadOnlyCollection<Emotion> emotions)
         {
-            var result = new List<string>();
+            var criteria = new List<string>();
+            var queries = new List<string>();
 
             var minAge = faces.Min(x => x.FaceAttributes.Age);
             if (minAge < 9)
             {
-                result.AddRange(new[] { FoodServiceAttribute.KidsRoom });
+                criteria.AddRange(new[] { FoodServiceAttribute.KidsRoom });
             }
 
             if (minAge < 14)
             {
-                result.AddRange(new[] { FoodServiceAttribute.KidsMenu });
+                criteria.AddRange(new[] { FoodServiceAttribute.KidsMenu });
             }
 
-            if (faces.Any(x => x.FaceAttributes.Age > 10 && x.FaceAttributes.Age < 35))
+            if (faces.Any(x => x.FaceAttributes.Age > 10 && x.FaceAttributes.Age < 25))
             {
-                result.Add(FoodServiceAttribute.Wifi);
+                criteria.Add(FoodServiceAttribute.Wifi);
             }
 
-            return new SearchRequest(result);
+            if (queries.Count == 0)
+            {
+                queries.Add("Поесть");
+            }
+
+            return queries.Select(x => new SearchRequest(criteria, x));
         }
 
-        private static SearchRequest ForPair(IReadOnlyCollection<Face> faces, IReadOnlyCollection<Emotion> emotions)
+        private static IEnumerable<SearchRequest> ForPair(IReadOnlyCollection<Face> faces, IReadOnlyCollection<Emotion> emotions)
         {
-            var result = new List<string>();
+            var criteria = new List<string>();
+            var queries = new List<string>();
 
             if (faces.AnyKids())
             {
-                result.AddRange(Criteria.ForKids);
+                criteria.AddRange(Criteria.ForKids);
             }
 
             if (faces.Any(x => x.FaceAttributes.Age > 10 && x.FaceAttributes.Age < 35))
             {
-                result.Add(FoodServiceAttribute.Wifi);
+                criteria.Add(FoodServiceAttribute.Wifi);
             }
 
-            return new SearchRequest();
+            if (faces.BoysOnly())
+            {
+                queries.Add("Бар");
+            }
+            else if (faces.GirlsOnly())
+            {
+                queries.Add("кофейни");
+                queries.Add("суши");
+            }
+            else
+            {
+                if (faces.Max(x => x.FaceAttributes.Age < 30))
+                {
+                    queries.Add("фаст-фуд");
+                    queries.Add("кофейни");
+                }
+                else
+                {
+                    queries.Add("ресторан");
+                }
+            }
+
+            if (queries.Count == 0)
+            {
+                queries.Add("Поесть");
+            }
+
+            return queries.Select(x => new SearchRequest(criteria, x));
         }
 
-        private static SearchRequest ForPerson(IReadOnlyCollection<Face> faces, IReadOnlyCollection<Emotion> emotions)
+        private static IEnumerable<SearchRequest> ForPerson(IReadOnlyCollection<Face> faces,
+            IReadOnlyCollection<Emotion> emotions)
         {
-            var result = new List<string>();
-            var q = string.Empty;
+            var criteria = new List<string>();
+            var queries = new List<string>();
 
             var age = faces.First().FaceAttributes.Age;
             if (age < 14)
             {
-                result.AddRange(new[] { FoodServiceAttribute.KidsMenu, FoodServiceAttribute.KidsRoom });
+                criteria.AddRange(new[] { FoodServiceAttribute.KidsMenu, FoodServiceAttribute.KidsRoom });
             }
 
             if (age > 10 && age <= 20)
             {
-                result.Add(FoodServiceAttribute.Wifi);
+                criteria.Add(FoodServiceAttribute.Wifi);
             }
 
             if (faces.First().FaceAttributes.FacialHair.Beard + faces.First().FaceAttributes.FacialHair.Moustache +
                 faces.First().FaceAttributes.FacialHair.Sideburns > 0.6)
             {
-                q = "Пивной ресторан";
+                queries.Add("Пивной ресторан");
             }
             else if (faces.First().FaceAttributes.Gender.ToLower() == Boy && faces.First().FaceAttributes.Age > 30)
             {
-                q = "гриль-бар";
+                queries.Add("гриль-бар");
             }
             else if (faces.First().FaceAttributes.Gender.ToLower() == Boy && faces.First().FaceAttributes.Age > 20)
             {
-                q = "кофейни";
+                queries.Add("Итальянская кухня");
+                queries.Add("кофейни");
+                queries.Add("суши");
             }
 
-            return new SearchRequest(result, q);
+            if (queries.Count == 0)
+            {
+                queries.Add("Поесть");
+            }
+
+            return queries.Select(x => new SearchRequest(criteria, x));
         }
 
         private static bool AnyKids(this IReadOnlyCollection<Face> faces)
