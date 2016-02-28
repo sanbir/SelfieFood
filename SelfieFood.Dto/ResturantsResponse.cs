@@ -25,11 +25,11 @@ namespace SelfieFood.Dto
 
         public class FacialHair
         {
+            public double Moustache { get; set; }
+
             public double Beard { get; set; }
 
-            public double Moustashes { get; set; }
-
-            //public double Sidebu
+            public double Sideburns { get; set; }
         }
 
         public class ResturantsResponse
