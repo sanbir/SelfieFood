@@ -83,13 +83,13 @@ namespace SelfieFood.SilverlightApp
         {
             string received = null;
 
-            var coord = await LocationService.GetCurrentLocation();
+            //var coord = await LocationService.GetCurrentLocation();
 
-            if (coord != null)
-            {
-                //request.Headers["Lat"] = coord.Latitude.ToString(CultureInfo.InvariantCulture);
-                //request.Headers["Lon"] = coord.Longitude.ToString(CultureInfo.InvariantCulture);
-            }
+            //if (coord != null)
+            //{
+            //    //request.Headers["Lat"] = coord.Latitude.ToString(CultureInfo.InvariantCulture);
+            //    //request.Headers["Lon"] = coord.Longitude.ToString(CultureInfo.InvariantCulture);
+            //}
 
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded";

@@ -27,9 +27,9 @@ namespace SelfieFood.Web.Controllers
             var faces = GetFaces(data);
             var emotions = GetEmotions(data);
 
-            string lat;
-            Request.Headers.TryGetValues("Lat")
-            var geoLoc = new GeoLocationParameters() {Lat =[@"Lat"], Lon = Request.Headers["Lon"]};
+            //string lat;
+            //Request.Headers.TryGetValues("Lat")
+            //var geoLoc = new GeoLocationParameters() {Lat =[@"Lat"], Lon = Request.Headers["Lon"]};
 
             var searchRequest = SearchRequestEvaluator.Evaluate(faces, emotions);
             var dataProvider = new DoubleGisDataProvider();

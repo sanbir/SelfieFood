@@ -22,31 +22,37 @@ namespace SelfieFood.DoubleGisApi
 
         private readonly string[] _fields = { "items.reviews", "items.external_content" };
 
-        public ResturantsResponse GetResturants(string searchString, IEnumerable<string> criteries, GeoLocationParameters geoLocationParameters = null)
+        public ResturantsResponse GetResturants(string searchString, IEnumerable<string> criteries,
+            GeoLocationParameters geoLocationParameters = null)
         {
             var uri = CreateUri(searchString, criteries, geoLocationParameters);
 
             var resturants = MakeRequest(uri);
-            
+
             var resturantsResponse = new ResturantsResponse()
             {
                 Variants = resturants.ToArray()
             };
 
-            var firms = new List<RestrauntInfo>();
-            foreach (var item in response.Result.Items)
-            {
-                var firmId = GetFirmId(item.Id);
-                firms.Add(new RestrauntInfo()
-                {
-                    Name = item.Name,
-                    DoubleGisCardUrl = GetCardDoubleGisUrl(firmId),
-                    CardFlampUrl = GetCardFlampUrl(firmId),
-                    ImageUrl = item.Album.Select(x => x.MainPhotoUrl != null ? x.MainPhotoUrl.ToString() : null).FirstOrDefault(),
-                    FlampOverallRating = item.Reviews.Rating,
-                    Address = item.AddressName,
-                });
-            }
+            //var firms = new List<RestrauntInfo>();
+            //foreach (var item in response.Result.Items)
+            //{
+            //    var firmId = GetFirmId(item.Id);
+            //    firms.Add(new RestrauntInfo()
+            //    {
+            //        Name = item.Name,
+            //        DoubleGisCardUrl = GetCardDoubleGisUrl(firmId),
+            //        CardFlampUrl = GetCardFlampUrl(firmId),
+            //        ImageUrl =
+            //            item.Album.Select(x => x.MainPhotoUrl != null ? x.MainPhotoUrl.ToString() : null)
+            //                .FirstOrDefault(),
+            //        FlampOverallRating = item.Reviews.Rating,
+            //        Address = item.AddressName,
+            //    });
+            //}
+
+            return resturantsResponse;
+        }
 
         private Uri CreateUri(string searchString, IEnumerable<string> criteries, GeoLocationParameters geoLocationParameters)
         {
