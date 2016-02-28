@@ -99,7 +99,10 @@ namespace SelfieFood.SilverlightApp
             {
                 style = (Style) Resources["Man"];
             }
-            else if (faceAttributes.Age < 65 && faceAttributes.FacialHair.Beard >= 0.5 &&
+            else if (faceAttributes.Age < 65 
+                && 
+                    (faceAttributes.FacialHair.Beard >= 0.5 || faceAttributes.FacialHair.Moustache >= 0.5 || faceAttributes.FacialHair.Sideburns >= 0.5)
+                &&
                      faceAttributes.Gender.ToLowerInvariant() == "male")
             {
                 style = (Style) Resources["BeardedMan"];
