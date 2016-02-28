@@ -29,13 +29,9 @@ namespace SelfieFood.Web.Controllers
             var searchRequest = SearchRequestEvaluator.Evaluate(faces, emotions);
             var dataProvider = new DoubleGisDataProvider();
             var firms = dataProvider.GetResturants(string.Empty, null);
+            firms.People = faces.Select(f => f.FaceAttributes).ToArray();
 
-            // TODO: дописать АПИ
-            return new ResturantsResponse
-            {
-                People = faces.Select(f => f.FaceAttributes).ToArray(),
-                Variants = { }
-            };
+            return firms;
         }
 
         private static Face[] GetFaces(byte[] image)
