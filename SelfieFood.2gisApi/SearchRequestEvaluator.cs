@@ -98,6 +98,7 @@ namespace SelfieFood.DoubleGisApi
         private static SearchRequest ForPerson(IReadOnlyCollection<Face> faces, IReadOnlyCollection<Emotion> emotions)
         {
             var result = new List<string>();
+            var q = string.Empty;
 
             var age = faces.First().FaceAttributes.Age;
             if (age < 14)
@@ -105,12 +106,26 @@ namespace SelfieFood.DoubleGisApi
                 result.AddRange(new[] { FoodServiceAttribute.KidsMenu, FoodServiceAttribute.KidsRoom });
             }
 
-            if (age > 10 && age < 35)
+            if (age > 10 && age <= 20)
             {
                 result.Add(FoodServiceAttribute.Wifi);
             }
 
-            return new SearchRequest(result);
+            if (faces.First().FaceAttributes.FacialHair.Beard + faces.First().FaceAttributes.FacialHair.Moustache +
+                faces.First().FaceAttributes.FacialHair.Sideburns > 0.6)
+            {
+                q = "Пивной ресторан";
+            }
+            else if (faces.First().FaceAttributes.Gender.ToLower() == Boy && faces.First().FaceAttributes.Age > 30)
+            {
+                q = "гриль-бар";
+            }
+            else if (faces.First().FaceAttributes.Gender.ToLower() == Boy && faces.First().FaceAttributes.Age > 20)
+            {
+                q = "кофейни";
+            }
+
+            return new SearchRequest(result, q);
         }
 
         private static bool AnyKids(this IReadOnlyCollection<Face> faces)
