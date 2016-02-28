@@ -110,7 +110,7 @@ namespace SelfieFood.DoubleGisApi
             }
             else
             {
-                if (faces.Max(x => x.FaceAttributes.Age < 30))
+                if (faces.Max(x => x.FaceAttributes.Age) < 30)
                 {
                     queries.Add("фаст-фуд");
                     queries.Add("кофейни");
