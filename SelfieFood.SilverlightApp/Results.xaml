@@ -87,9 +87,14 @@
                 <ItemsControl x:Name="PersonIcons" ItemsSource="{Binding Path=PeopleViewModels}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <ContentControl Style="{Binding Path=PersonStyle}" Width="30" Height="30" Margin="2"/>
+                            <ContentControl Style="{Binding Path=PersonStyle}" Width="20" Height="30" Margin="2"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
                 </ItemsControl>
                 <TextBlock x:Name="AgeDiapasonText"/>
                 
