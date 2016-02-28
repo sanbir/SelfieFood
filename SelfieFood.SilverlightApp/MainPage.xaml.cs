@@ -1,22 +1,15 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Net;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Tasks;
-using Newtonsoft.Json;
-using SelfieFood.Dto.SelfieFood.Dto;
-using Windows.UI.Popups;
 
 
 namespace SelfieFood.SilverlightApp
@@ -44,8 +37,8 @@ namespace SelfieFood.SilverlightApp
                 if (args.Files.Count == 0) return;
 
                 _view.Activated -= viewActivated;
-                StorageFile storageFile = args.Files[0];
-                var stream = await storageFile.OpenAsync(Windows.Storage.FileAccessMode.Read);
+                var storageFile = args.Files[0];
+                var stream = await storageFile.OpenAsync(FileAccessMode.Read);
                 stream.Seek(0);
 
                 using (var r = new BinaryReader(stream.AsStream()))
@@ -125,8 +118,8 @@ namespace SelfieFood.SilverlightApp
 
         private async Task ProcessImage(byte[] bytes)
         {
-//var uri = new Uri("http://selfiefoodweb20160228034641.azurewebsites.net/Api/FoodApi/PostPhoto");
-            var uri = new Uri("http://uk-rnd-391:57164/Api/FoodApi/PostPhoto");
+var uri = new Uri("http://selfiefoodweb20160228034641.azurewebsites.net/Api/FoodApi/PostPhoto");
+//            var uri = new Uri("http://uk-rnd-391:57164/Api/FoodApi/PostPhoto");
 
             var request = WebRequest.CreateHttp(uri);
 
