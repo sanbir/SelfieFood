@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -33,10 +34,14 @@ namespace SelfieFood.Web.Controllers
 
             var searchRequest = SearchRequestEvaluator.Evaluate(faces, emotions);
             var dataProvider = new DoubleGisDataProvider();
-            var firms = dataProvider.GetResturants(searchRequest.SearchQuery, searchRequest.Criteria);
-            firms.People = faces.Select(f => f.FaceAttributes).ToArray();
+            ResturantsResponse firms = dataProvider.GetResturants(searchRequest.SearchQuery, searchRequest.Criteria);
+            ResturantsResponse defaultFirms = dataProvider.GetResturants("", Enumerable.Empty<string>());
 
-            return firms;
+            return new ResturantsResponse()
+            {
+                Variants = Pick(firms.Variants, 5).Union(Pick(defaultFirms.Variants, 2)).ToArray(),
+                People = faces.Select(f => f.FaceAttributes).ToArray()
+            };
         }
 
         private static Face[] GetFaces(byte[] image)
@@ -55,6 +60,29 @@ namespace SelfieFood.Web.Controllers
             var client = new EmotionServiceClient("cb68f67d5c47415ead0fd289b051acc6");
 
             return Task.Run(() => client.RecognizeAsync(new MemoryStream(image))).Result;
+        }
+
+        private IEnumerable<RestrauntInfo> Pick(IEnumerable<RestrauntInfo> v, int n)
+        {
+            var result = new List<RestrauntInfo>();
+            var t = v.ToList();
+
+            var counter = 0;
+            while (counter < n && t.Count > 0)
+            {
+                var random = new Random();
+                foreach (var resturantsResponse in t.ToArray())
+                {
+                    if (random.Next(1, 4) > 2)
+                    {
+                        result.Add(resturantsResponse);
+                        t.Remove(resturantsResponse);
+                        counter++;
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

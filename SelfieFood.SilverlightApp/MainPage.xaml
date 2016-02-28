@@ -64,16 +64,24 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-              
-                <Border BorderThickness="2" 
+
+                <StackPanel  Grid.Column="1" Orientation="Horizontal">
+                    <Border BorderThickness="2" 
                     Width="52" 
                     Height="52" 
                     BorderBrush="#eeeeee" 
                     CornerRadius="24" 
-                    Grid.Column="1" 
+                    
                     Margin="0,0,0,0">
-                    <Image VerticalAlignment="Center" HorizontalAlignment="Center" Source="Images/feature.camera.png" Stretch="None" x:Name="buttonImage" Tap="btnCapture_Click"/>
-                </Border>
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image VerticalAlignment="Center" HorizontalAlignment="Center"
+                               Source="Images/feature.camera.png" Stretch="None" x:Name="buttonImage" Tap="btnCapture_Click"/>                            
+                        </StackPanel>
+
+                    </Border>
+                    <Button VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="_loadImage1" Tap="btnPredictRestraunt"/>
+                </StackPanel>
+               
                
                 <TextBlock Text="хочу пойти!" 
                        Margin="0,4,0,12" 

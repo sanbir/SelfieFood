@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Core;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Tasks;
 using Newtonsoft.Json;
@@ -25,8 +29,36 @@ namespace SelfieFood.SilverlightApp
         {
             InitializeComponent();
 
+            _view = CoreApplication.GetCurrentView();
+            
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
+        }
+
+        private async void viewActivated(CoreApplicationView sender, IActivatedEventArgs args1)
+        {
+            FileOpenPickerContinuationEventArgs args = args1 as FileOpenPickerContinuationEventArgs;
+
+            if (args != null)
+            {
+                if (args.Files.Count == 0) return;
+
+                _view.Activated -= viewActivated;
+                StorageFile storageFile = args.Files[0];
+                var stream = await storageFile.OpenAsync(Windows.Storage.FileAccessMode.Read);
+                stream.Seek(0);
+
+                using (var r = new BinaryReader(stream.AsStream()))
+                {
+
+                    var bytes = r.ReadBytes((int)stream.Size);
+
+                    await ProcessImage(bytes);
+                }
+//
+//                var decoder = await Windows.Graphics.Imaging.BitmapDecoder.CreateAsync(stream);
+//                img.Source = bitmapImage;
+            }
         }
 
         // Sample code for building a localized ApplicationBar
@@ -46,6 +78,8 @@ namespace SelfieFood.SilverlightApp
         //}
 
         private bool _clickEnabled = true;
+        private CoreApplicationView _view;
+
         private void btnCapture_Click(object sender, RoutedEventArgs e)
         {
             if(!_clickEnabled)
@@ -83,23 +117,28 @@ namespace SelfieFood.SilverlightApp
 
                     var bytes = r.ReadBytes((int)e.ChosenPhoto.Length);
 
-                    //var uri = new Uri("http://selfiefoodweb20160228034641.azurewebsites.net/Api/FoodApi/PostPhoto");
-                    var uri = new Uri("http://uk-rnd-391:57164/Api/FoodApi/PostPhoto");
-
-                    var request = WebRequest.CreateHttp(uri);
-
-
-                    var data = await GetHttpPostResponse(request, bytes);
-
-                    if (data == null)
-                    {
-                        MessageBox.Show("Ошибка при отправке запроса на сервер, попробуйте еще раз");
-                        return;
-                    }
-
-                    NavigationService.Navigate(new Uri("/Results.xaml?d=" + data, UriKind.Relative));
+                    await ProcessImage(bytes);
                 }
             }
+        }
+
+        private async Task ProcessImage(byte[] bytes)
+        {
+//var uri = new Uri("http://selfiefoodweb20160228034641.azurewebsites.net/Api/FoodApi/PostPhoto");
+            var uri = new Uri("http://uk-rnd-391:57164/Api/FoodApi/PostPhoto");
+
+            var request = WebRequest.CreateHttp(uri);
+
+
+            var data = await GetHttpPostResponse(request, bytes);
+
+            if (data == null)
+            {
+                MessageBox.Show("Ошибка при отправке запроса на сервер, попробуйте еще раз");
+                return;
+            }
+
+            NavigationService.Navigate(new Uri("/Results.xaml?d=" + data, UriKind.Relative));
         }
 
 
@@ -159,7 +198,19 @@ namespace SelfieFood.SilverlightApp
 
         private void btnPredictRestraunt(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Results.xaml", UriKind.Relative));
+            var filePicker = new FileOpenPicker();
+            filePicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            filePicker.ViewMode = PickerViewMode.Thumbnail;
+
+            // Filter to include a sample subset of file types
+            filePicker.FileTypeFilter.Clear();
+            filePicker.FileTypeFilter.Add(".bmp");
+            filePicker.FileTypeFilter.Add(".png");
+            filePicker.FileTypeFilter.Add(".jpeg");
+            filePicker.FileTypeFilter.Add(".jpg");
+
+            filePicker.PickSingleFileAndContinue();
+            _view.Activated += viewActivated; 
         }
     }
 }
