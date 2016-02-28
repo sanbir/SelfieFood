@@ -147,7 +147,8 @@
                                         <TextBlock Text="Кафе и рестораны"/>
                                         <Ellipse Width="6" Height="6" Fill="#3bb23b" Margin="6,0,6,0" VerticalAlignment="Center"/>
                                         <TextBlock Text="{Binding Index}"/>
-                                        <TextBlock Text=" of 7"/>
+                                        <TextBlock Text=" из "/>
+                                        <TextBlock Text="{Binding Total}"></TextBlock>
                                     </StackPanel>
                                 </Grid>
                             </Grid>

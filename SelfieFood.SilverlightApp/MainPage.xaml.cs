@@ -124,8 +124,8 @@ namespace SelfieFood.SilverlightApp
 
             try
             {
-                var uri = new Uri("http://selfiefoodweb20160228034641.azurewebsites.net/Api/FoodApi/PostPhoto");
-                //            var uri = new Uri("http://uk-rnd-391:57164/Api/FoodApi/PostPhoto");
+                //var uri = new Uri("http://selfiefoodweb20160228034641.azurewebsites.net/Api/FoodApi/PostPhoto");
+                            var uri = new Uri("http://uk-rnd-391:57164/Api/FoodApi/PostPhoto");
 
                 var request = WebRequest.CreateHttp(uri);
 

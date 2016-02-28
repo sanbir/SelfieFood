@@ -20,6 +20,8 @@ namespace SelfieFood.SilverlightApp
         private readonly List<ViewModel> _itemsSource = new List<ViewModel>(3);
         private readonly PeopleViewModel _peopleViewModel = new PeopleViewModel();
 
+        public int ItemsCount { get { return _itemsSource.Count; } }
+
         public Results()
         {
             InitializeComponent();
@@ -60,7 +62,9 @@ namespace SelfieFood.SilverlightApp
                     Title = item.Name,
                     Index = index,
                     Likes = Convert.ToInt32(item.FlampOverallRating),
-                    Url = item.DoubleGisCardUrl
+                    Url = item.DoubleGisCardUrl,
+                    FlampUrl = item.CardFlampUrl,
+                    Total = resp.Variants.Length
                 };
 
                 _itemsSource.Add(model);
@@ -149,5 +153,7 @@ namespace SelfieFood.SilverlightApp
         }
 
         public string Url { get; set; }
+        public string FlampUrl { get; set; }
+        public int Total { get; set; }
     }
 }
