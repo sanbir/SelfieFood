@@ -73,7 +73,7 @@ namespace SelfieFood.Web.Controllers
                 var random = new Random();
                 foreach (var resturantsResponse in t.ToArray())
                 {
-                    if (random.Next(1, 2) > 1)
+                    if (random.Next(1, 4) > 2)
                     {
                         result.Add(resturantsResponse);
                         t.Remove(resturantsResponse);
