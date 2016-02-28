@@ -37,17 +37,16 @@ namespace SelfieFood.Web.Controllers
             var defaultFirms = dataProvider.GetResturants("", Enumerable.Empty<string>());
 
             var random = new Random();
-            var pickedResults = Pick(firms.SelectMany(x => x.Variants), random.Next(4,8)).ToArray();
+            var pickedResults = Pick(firms.SelectMany(x => x.Variants), random.Next(4,8)).ToArray().OrderByDescending(x=>x.FlampOverallRating);
             var pickedResultNames = pickedResults.Select(x => x.Name);
 
-            var defaultItems = Pick(defaultFirms.Variants.Where(x => !pickedResultNames.Contains(x.Name)), random.Next(2, 4));
+            var defaultItems = Pick(defaultFirms.Variants.Where(x => !pickedResultNames.Contains(x.Name)), random.Next(2, 4)).OrderByDescending(x => x.FlampOverallRating);
             
             var result = new ResturantsResponse
             {
                 Variants =
                     pickedResults.Concat(defaultItems)
                         .DistinctBy(x => x.Name)
-                        .OrderByDescending(x => x.FlampOverallRating)
                         .ToArray(),
                 People = faces.Select(f => f.FaceAttributes).ToArray()
             };
