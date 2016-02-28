@@ -33,7 +33,7 @@ namespace SelfieFood.Web.Controllers
 
             var searchRequest = SearchRequestEvaluator.Evaluate(faces, emotions);
             var dataProvider = new DoubleGisDataProvider();
-            var firms = dataProvider.GetResturants(string.Empty, null);
+            var firms = dataProvider.GetResturants(string.Empty, Enumerable.Empty<string>());
             firms.People = faces.Select(f => f.FaceAttributes).ToArray();
 
             return firms;
@@ -47,7 +47,7 @@ namespace SelfieFood.Web.Controllers
                     () =>
                     faceServiceClient.DetectAsync(
                         new MemoryStream(image),
-                        returnFaceAttributes: new[] { FaceAttributeType.Age, FaceAttributeType.Gender, })).Result;
+                        returnFaceAttributes: new[] { FaceAttributeType.Age, FaceAttributeType.Gender, FaceAttributeType.FacialHair,  })).Result;
         }
 
         private static Emotion[] GetEmotions(byte[] image)

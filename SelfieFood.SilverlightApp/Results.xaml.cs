@@ -32,7 +32,7 @@ namespace SelfieFood.SilverlightApp
         {
             LoadData();
             slideView.DataContext = _itemsSource;
-            PersonIcons.DataContext = _peopleViewModel.PeopleViewModels;
+            PersonIcons.ItemsSource = _peopleViewModel.PeopleViewModels;
         }
 
 
@@ -76,12 +76,14 @@ namespace SelfieFood.SilverlightApp
 
         private void OnPlayTap(object sender, GestureEventArgs e)
         {
-            throw new NotImplementedException();
+            MessageBox.Show("Встань и иди!");
         }
 
         private Style GetStyle(FaceAttributes faceAttributes)
         {
             Style style;
+
+            faceAttributes.FacialHair = faceAttributes.FacialHair ?? new FacialHair();
 
             if (faceAttributes.Age < 5)
             {

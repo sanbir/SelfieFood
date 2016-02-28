@@ -119,7 +119,7 @@ namespace SelfieFood.DoubleGisApi
                     Name = searchResult.Name,
                     DoubleGisCardUrl = GetCardDoubleGisUrl(firmId),
                     CardFlampUrl = GetCardFlampUrl(firmId),
-                    ImageUrl = searchResult.Album.Select(x => x.MainPhotoUrl?.ToString()).FirstOrDefault(),
+                    ImageUrl = searchResult.Album.Select(x => x.MainPhotoUrl != null? x.MainPhotoUrl.ToString() : null).FirstOrDefault(),
                     FlampOverallRating = searchResult.Reviews.Rating,
                     Address = searchResult.AddressName
                 }).ToList();

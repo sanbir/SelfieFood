@@ -6,17 +6,20 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Tasks;
 using Newtonsoft.Json;
 using SelfieFood.Dto.SelfieFood.Dto;
+using Windows.UI.Popups;
+
 
 namespace SelfieFood.SilverlightApp
 {
     public partial class MainPage : PhoneApplicationPage
     {
-       
+
         // Constructor
         public MainPage()
         {
@@ -41,23 +44,38 @@ namespace SelfieFood.SilverlightApp
         //    ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
         //    ApplicationBar.MenuItems.Add(appBarMenuItem);
         //}
-        private async void btnCapture_Click(object sender, RoutedEventArgs e)
+
+        private bool _clickEnabled = true;
+        private void btnCapture_Click(object sender, RoutedEventArgs e)
         {
-            var camera = new CameraCaptureTask();
-            camera.Completed += camera_Completed;
-            camera.Show();
+            if(!_clickEnabled)
+                return;
+            
+            _clickEnabled = false;
+
+            try
+            {
+                var camera = new CameraCaptureTask();
+                camera.Completed += camera_Completed;
+                camera.Show();
+            }
+            finally
+            {
+                _clickEnabled = true;
+            }
+
         }
 
         private async void camera_Completed(object sender, PhotoResult e)
         {
             if (e.TaskResult == TaskResult.OK)
             {
-                var bitMap = new BitmapImage();
-
-                bitMap.SetSource(e.ChosenPhoto);
-                // Set to Image Control  
-                _faceImage.Stretch = System.Windows.Media.Stretch.UniformToFill;
-                _faceImage.Source = bitMap;
+//                var bitMap = new BitmapImage();
+//
+//                bitMap.SetSource(e.ChosenPhoto);
+//                // Set to Image Control  
+//                _faceImage.Stretch = System.Windows.Media.Stretch.UniformToFill;
+//                _faceImage.Source = bitMap;
 
                 using (var r = new BinaryReader(e.ChosenPhoto))
                 {
@@ -65,13 +83,19 @@ namespace SelfieFood.SilverlightApp
 
                     var bytes = r.ReadBytes((int)e.ChosenPhoto.Length);
 
-                    var uri = new Uri("http://selfiefoodweb20160228034641.azurewebsites.net/Api/FoodApi/PostPhoto");
-                    //var uri = new Uri("http://uk-rnd-391:57164/Api/FoodApi/PostPhoto");
+                    //var uri = new Uri("http://selfiefoodweb20160228034641.azurewebsites.net/Api/FoodApi/PostPhoto");
+                    var uri = new Uri("http://uk-rnd-391:57164/Api/FoodApi/PostPhoto");
 
                     var request = WebRequest.CreateHttp(uri);
 
 
                     var data = await GetHttpPostResponse(request, bytes);
+
+                    if (data == null)
+                    {
+                        MessageBox.Show("Ошибка при отправке запроса на сервер, попробуйте еще раз");
+                        return;
+                    }
 
                     NavigationService.Navigate(new Uri("/Results.xaml?d=" + data, UriKind.Relative));
                 }
@@ -112,21 +136,21 @@ namespace SelfieFood.SilverlightApp
                     using (var reader = new StreamReader(response.GetResponseStream()))
                     {
                         ;
-                    // ASYNC: using StreamReader's async method to read to end, in case
-                    // the stream i slarge.
-                    received = await reader.ReadToEndAsync();
-                }
+                        // ASYNC: using StreamReader's async method to read to end, in case
+                        // the stream i slarge.
+                        received = await reader.ReadToEndAsync();
+                    }
 
-            }
+                }
             }
             catch (WebException we)
             {
                 using (var reader = new StreamReader(we.Response.GetResponseStream()))
                 {
                     var responseString = reader.ReadToEnd();
-                Debug.WriteLine(responseString);
-                return responseString;
-            }
+                    Debug.WriteLine(responseString);
+                    return null;
+                }
 
             }
 

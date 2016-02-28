@@ -39,8 +39,8 @@ namespace SelfieFood.SilverlightApp.ViewModels
             Age = age;
         }
 
-        public int Age { get; }
+        public int Age { get; private set; }
 
-        public Style PersonStyle { get; }
+        public Style PersonStyle { get; private set; }
     }
 }
