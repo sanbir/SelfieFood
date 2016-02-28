@@ -167,6 +167,7 @@
     <Content Include="FirstLookData.txt" />
     <Content Include="Images\background.jpg" />
     <Content Include="Images\feature.camera.png" />
+    <Content Include="Images\folder.png" />
     <Content Include="Images\like.png" />
   </ItemGroup>
   <ItemGroup>

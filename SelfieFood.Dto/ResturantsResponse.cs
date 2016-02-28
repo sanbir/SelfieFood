@@ -1,15 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-
-namespace SelfieFood.Dto
+﻿namespace SelfieFood.Dto
 {
     namespace SelfieFood.Dto
     {
@@ -45,13 +34,13 @@ namespace SelfieFood.Dto
 
             public string Address { get; set; }
 
-            public string Url { get; set; }
+            public string DoubleGisCardUrl { get; set; }
 
             public string ImageUrl { get; set; }
 
             public float FlampOverallRating { get; set; }
 
-            public FlampFeedback[] FlampFeedbacks { get; set; }
+            public string CardFlampUrl { get; set; }
         }
 
         public class FlampFeedback

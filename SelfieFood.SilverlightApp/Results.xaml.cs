@@ -51,26 +51,22 @@ namespace SelfieFood.SilverlightApp
             if (resp == null)
                 return;
 
-            var resource = Application.GetResourceStream(new Uri("FirstLookData.txt", UriKind.RelativeOrAbsolute));
-            using (var reader = new StreamReader(resource.Stream))
+            var index = 1;
+            foreach (var item in resp.Variants.Where(x => !string.IsNullOrWhiteSpace(x.ImageUrl)))
             {
-                string line;
-                var index = 1;
-                foreach (var item in resp.Variants)
+                var model = new ViewModel
                 {
-                    var model = new ViewModel
-                    {
-                        Image = new Uri(item.ImageUrl, UriKind.Absolute),
-                        Title = item.Name,
-                        Index = index,
-                        Likes = item.FlampFeedbacks == null ? 0 : item.FlampFeedbacks.Length,
-                        Url = item.Url
-                    };
+                    Image = new Uri(item.ImageUrl, UriKind.Absolute),
+                    Title = item.Name,
+                    Index = index,
+                    Likes = Convert.ToInt32(item.FlampOverallRating),
+                    Url = item.DoubleGisCardUrl
+                };
 
-                    _itemsSource.Add(model);
-                    index++;
-                }
+                _itemsSource.Add(model);
+                index++;
             }
+
 
             _peopleViewModel.PeopleViewModels =
                 resp.People.Select(p => new PersonViewModel(GetStyle(p), Convert.ToInt32(p.Age))).ToList();
@@ -79,8 +75,10 @@ namespace SelfieFood.SilverlightApp
 
         private void OnPlayTap(object sender, GestureEventArgs e)
         {
-            WebBrowserTask namewhatevz = new WebBrowserTask();
-            namewhatevz.Uri = new Uri(((ViewModel)slideView.SelectedItem).Url, UriKind.Absolute);
+            var namewhatevz = new WebBrowserTask
+            {
+                Uri = new Uri(((ViewModel) slideView.SelectedItem).Url, UriKind.Absolute)
+            };
             namewhatevz.Show();
         }
 
@@ -92,32 +90,32 @@ namespace SelfieFood.SilverlightApp
 
             if (faceAttributes.Age < 5)
             {
-                style = (Style) Resources["Infant"];
+                style = (Style)Resources["Infant"];
             }
             else if (faceAttributes.Age < 14)
             {
-                style = (Style) Resources["Child"];
+                style = (Style)Resources["Child"];
             }
             else if (faceAttributes.Age < 65 && faceAttributes.FacialHair.Beard < 0.5 &&
                      faceAttributes.Gender.ToLowerInvariant() == "male")
             {
-                style = (Style) Resources["Man"];
+                style = (Style)Resources["Man"];
             }
-            else if (faceAttributes.Age < 65 
-                && 
+            else if (faceAttributes.Age < 65
+                &&
                     (faceAttributes.FacialHair.Beard >= 0.5 || faceAttributes.FacialHair.Moustache >= 0.5 || faceAttributes.FacialHair.Sideburns >= 0.5)
                 &&
                      faceAttributes.Gender.ToLowerInvariant() == "male")
             {
-                style = (Style) Resources["BeardedMan"];
+                style = (Style)Resources["BeardedMan"];
             }
             else if (faceAttributes.Age < 65 && faceAttributes.Gender.ToLowerInvariant() == "female")
             {
-                style = (Style) Resources["Woman"];
+                style = (Style)Resources["Woman"];
             }
             else
             {
-                style = (Style) Resources["OldMan"];
+                style = (Style)Resources["OldMan"];
             }
 
             return style;

@@ -90,7 +90,8 @@ namespace SelfieFood.SilverlightApp
             try
             {
                 var camera = new CameraCaptureTask();
-                camera.Completed += camera_Completed;
+                
+                camera.Completed += camera_Completed;                
                 camera.Show();
             }
             finally

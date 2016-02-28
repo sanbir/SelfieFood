@@ -42,8 +42,8 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="РЕКОМЕНДАТОР" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0"/>
-            <TextBlock Text="сделайте фото" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock Text="РЕКОМЕНДУЕМ РЕСТОРАН ПО ФОТО" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0"/>
+            <TextBlock Text="Selfie Food" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
@@ -53,7 +53,10 @@
                 <RowDefinition Height="70"></RowDefinition>
             </Grid.RowDefinitions>
             <Image x:Name="_faceImage" Source="Images/background.jpg" Stretch="UniformToFill"></Image>
-
+            <Grid Grid.Row="0" Background="Black" VerticalAlignment="Bottom" Opacity="0.6" >
+                <TextBlock Margin="20 0 0 0"  FontSize="30" TextWrapping="Wrap" Text="Сфотай себя и друзей и мы подберем кафе"></TextBlock>
+            </Grid>
+           
             <Grid Grid.Row="1" Margin="12,12,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -73,13 +76,23 @@
                     CornerRadius="24" 
                     
                     Margin="0,0,0,0">
-                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                      
                             <Image VerticalAlignment="Center" HorizontalAlignment="Center"
                                Source="Images/feature.camera.png" Stretch="None" x:Name="buttonImage" Tap="btnCapture_Click"/>                            
-                        </StackPanel>
-
                     </Border>
-                    <Button VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="_loadImage1" Tap="btnPredictRestraunt"/>
+
+                    <Border BorderThickness="2" 
+                    Width="52" 
+                    Height="52" 
+                    BorderBrush="#eeeeee" 
+                    CornerRadius="24" 
+                    
+                    Margin="15,0,0,0">
+
+                        <Image VerticalAlignment="Center" HorizontalAlignment="Center"
+                               Source="Images/folder.png" Stretch="None" x:Name="_loadImage3" Tap="btnPredictRestraunt"/>
+                    </Border>
+                    <!--<Button  VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="_loadImage1" Tap="btnPredictRestraunt"/>-->
                 </StackPanel>
                
                
