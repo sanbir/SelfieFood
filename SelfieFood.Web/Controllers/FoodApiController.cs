@@ -33,7 +33,7 @@ namespace SelfieFood.Web.Controllers
 
             var searchRequest = SearchRequestEvaluator.Evaluate(faces, emotions);
             var dataProvider = new DoubleGisDataProvider();
-            var firms = dataProvider.GetResturants(string.Empty, Enumerable.Empty<string>());
+            var firms = dataProvider.GetResturants(searchRequest.SearchQuery, searchRequest.Criteria);
             firms.People = faces.Select(f => f.FaceAttributes).ToArray();
 
             return firms;
