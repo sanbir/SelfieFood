@@ -139,7 +139,7 @@
                                         <ColumnDefinition Width="0.3*"/>
                                         <ColumnDefinition Width="0.7*"/>
                                     </Grid.ColumnDefinitions>
-                                    <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Horizontal" Tap="UIElement_OnTap">
                                         <TextBlock Text="Flamp: " FontFamily="{StaticResource PhoneFontFamilySemiBold}"/>
                                         <TextBlock Text="{Binding Likes}"/>
                                     </StackPanel>

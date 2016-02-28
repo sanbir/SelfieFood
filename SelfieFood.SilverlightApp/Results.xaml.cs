@@ -124,6 +124,15 @@ namespace SelfieFood.SilverlightApp
 
             return style;
         }
+
+        private void UIElement_OnTap(object sender, GestureEventArgs e)
+        {
+            var namewhatevz = new WebBrowserTask
+            {
+                Uri = new Uri(((ViewModel)slideView.SelectedItem).FlampUrl, UriKind.Absolute)
+            };
+            namewhatevz.Show();
+        }
     }
 
     public class ViewModel
