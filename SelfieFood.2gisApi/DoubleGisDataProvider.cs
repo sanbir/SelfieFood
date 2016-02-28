@@ -18,7 +18,7 @@ namespace SelfieFood.DoubleGisApi
         private const string UserKey = "ruffzo9376";
         private const string DefaultsSearchString = "Поесть";
         private const string DefaultRegionId = "1";
-        private const string PageSize  = "10";
+        private const string PageSize = "10";
 
         private readonly string[] _fields = { "items.reviews", "items.external_content" };
 
@@ -33,23 +33,6 @@ namespace SelfieFood.DoubleGisApi
             {
                 Variants = resturants.ToArray()
             };
-
-            //var firms = new List<RestrauntInfo>();
-            //foreach (var item in response.Result.Items)
-            //{
-            //    var firmId = GetFirmId(item.Id);
-            //    firms.Add(new RestrauntInfo()
-            //    {
-            //        Name = item.Name,
-            //        DoubleGisCardUrl = GetCardDoubleGisUrl(firmId),
-            //        CardFlampUrl = GetCardFlampUrl(firmId),
-            //        ImageUrl =
-            //            item.Album.Select(x => x.MainPhotoUrl != null ? x.MainPhotoUrl.ToString() : null)
-            //                .FirstOrDefault(),
-            //        FlampOverallRating = item.Reviews.Rating,
-            //        Address = item.AddressName,
-            //    });
-            //}
 
             return resturantsResponse;
         }
@@ -92,9 +75,9 @@ namespace SelfieFood.DoubleGisApi
             using (var response = request.GetResponse())
             {
                 using (var stream = response.GetResponseStream())
-        {
+                {
                     if (stream == null)
-                        return new RestrauntInfo[] {};
+                        return new RestrauntInfo[] { };
 
                     var reader = new StreamReader(stream);
 
@@ -111,30 +94,30 @@ namespace SelfieFood.DoubleGisApi
             var results = googleSearch["result"]["items"].Children().ToList();
 
             return (from result in results
-                select JsonConvert.DeserializeObject<Firm>(result.ToString())
+                    select JsonConvert.DeserializeObject<Firm>(result.ToString())
                 into searchResult
-                let firmId = GetFirmId(searchResult.Id)
-                select new RestrauntInfo()
-            {
-                    Name = searchResult.Name,
-                    DoubleGisCardUrl = GetCardDoubleGisUrl(firmId),
-                    CardFlampUrl = GetCardFlampUrl(firmId),
-                    ImageUrl = searchResult.Album.Select(x => x.MainPhotoUrl != null? x.MainPhotoUrl.ToString() : null).FirstOrDefault(),
-                    FlampOverallRating = searchResult.Reviews.Rating,
-                    Address = searchResult.AddressName
-                }).ToList();
+                    let firmId = GetFirmId(searchResult.Id)
+                    select new RestrauntInfo()
+                    {
+                        Name = searchResult.Name,
+                        DoubleGisCardUrl = GetCardDoubleGisUrl(firmId),
+                        CardFlampUrl = GetCardFlampUrl(firmId),
+                        ImageUrl = searchResult.Album.Select(x => x.MainPhotoUrl != null ? x.MainPhotoUrl.ToString() : null).FirstOrDefault(),
+                        FlampOverallRating = searchResult.Reviews.Rating,
+                        Address = searchResult.AddressName
+                    }).ToList();
         }
 
         private static string GetFirmId(string id)
-                {
+        {
             return id.Substring(0, id.IndexOf("_", StringComparison.Ordinal));
-                }
+        }
 
         private static string GetCardDoubleGisUrl(string id)
         {
             // NOTE: Нужно обязательно указать любой запрос
             return string.Format(CardDoubleGisTemplate, "SelfieFood", id);
-            }
+        }
 
         private static string GetCardFlampUrl(string id)
         {
