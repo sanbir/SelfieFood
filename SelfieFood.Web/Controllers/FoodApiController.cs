@@ -47,6 +47,7 @@ namespace SelfieFood.Web.Controllers
                 Variants =
                     pickedResults.Concat(defaultItems)
                         .DistinctBy(x => x.Name)
+                        .OrderBy(x => x.FlampOverallRating)
                         .ToArray(),
                 People = faces.Select(f => f.FaceAttributes).ToArray()
             };
