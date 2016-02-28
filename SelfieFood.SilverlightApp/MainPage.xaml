@@ -103,14 +103,18 @@
                        HorizontalAlignment="Center"
                        Foreground="#eeeeee"/>
             </Grid>
-<!--            <telerikPrimitives:RadBusyIndicator  -->
-<!--                                            Foreground="LawnGreen"-->
-<!--                                            x:Name="_busyIndicator" -->
-<!--                                            Visibility="Visible"-->
-<!--                                            IsRunning="False"-->
-<!--                                            Grid.Row="0" -->
-<!--                                            Grid.RowSpan="2"-->
-<!--                                            AnimationStyle="AnimationStyle9"/>-->
+            <telerikPrimitives:RadBusyIndicator  
+                                            Foreground="Black"
+                                            x:Name="_busyIndicator" 
+                                            Visibility="Visible"
+                                            IsRunning="False"
+                                            Content="Идет обработка фотографии..."
+                                            Grid.Row="0" 
+                                            Grid.RowSpan="2"
+                                            VerticalAlignment="Center" 
+                                            HorizontalAlignment="Center"
+                                            FontSize="20"
+                                            AnimationStyle="AnimationStyle9"/>
         </Grid>
 
         <!--Uncomment to see an alignment grid to help ensure your controls are

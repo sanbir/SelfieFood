@@ -23,7 +23,7 @@ namespace SelfieFood.SilverlightApp
             InitializeComponent();
 
             _view = CoreApplication.GetCurrentView();
-            
+
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
         }
@@ -48,9 +48,9 @@ namespace SelfieFood.SilverlightApp
 
                     await ProcessImage(bytes);
                 }
-//
-//                var decoder = await Windows.Graphics.Imaging.BitmapDecoder.CreateAsync(stream);
-//                img.Source = bitmapImage;
+                //
+                //                var decoder = await Windows.Graphics.Imaging.BitmapDecoder.CreateAsync(stream);
+                //                img.Source = bitmapImage;
             }
         }
 
@@ -75,16 +75,16 @@ namespace SelfieFood.SilverlightApp
 
         private void btnCapture_Click(object sender, RoutedEventArgs e)
         {
-            if(!_clickEnabled)
+            if (!_clickEnabled)
                 return;
-            
+
             _clickEnabled = false;
 
             try
             {
                 var camera = new CameraCaptureTask();
-                
-                camera.Completed += camera_Completed;                
+
+                camera.Completed += camera_Completed;
                 camera.Show();
             }
             finally
@@ -98,12 +98,14 @@ namespace SelfieFood.SilverlightApp
         {
             if (e.TaskResult == TaskResult.OK)
             {
-//                var bitMap = new BitmapImage();
-//
-//                bitMap.SetSource(e.ChosenPhoto);
-//                // Set to Image Control  
-//                _faceImage.Stretch = System.Windows.Media.Stretch.UniformToFill;
-//                _faceImage.Source = bitMap;
+                //                var bitMap = new BitmapImage();
+                //
+                //                bitMap.SetSource(e.ChosenPhoto);
+                //                // Set to Image Control  
+                //                _faceImage.Stretch = System.Windows.Media.Stretch.UniformToFill;
+                //                _faceImage.Source = bitMap;
+
+
 
                 using (var r = new BinaryReader(e.ChosenPhoto))
                 {
@@ -118,25 +120,41 @@ namespace SelfieFood.SilverlightApp
 
         private async Task ProcessImage(byte[] bytes)
         {
-var uri = new Uri("http://selfiefoodweb20160228034641.azurewebsites.net/Api/FoodApi/PostPhoto");
-//            var uri = new Uri("http://uk-rnd-391:57164/Api/FoodApi/PostPhoto");
+            _busyIndicator.IsRunning = true;
 
-            var request = WebRequest.CreateHttp(uri);
+            try
+            {
+                var uri = new Uri("http://selfiefoodweb20160228034641.azurewebsites.net/Api/FoodApi/PostPhoto");
+                //            var uri = new Uri("http://uk-rnd-391:57164/Api/FoodApi/PostPhoto");
+
+                var request = WebRequest.CreateHttp(uri);
 
 
-            var data = await GetHttpPostResponse(request, bytes);
+                var data = await GetHttpPostResponse(request, bytes);
 
-            if (data == null)
+                if (data == null)
+                {
+                    MessageBox.Show("Ошибка при отправке запроса на сервер, попробуйте еще раз");
+                    return;
+                }
+
+                NavigationService.Navigate(new Uri("/Results.xaml?d=" + data, UriKind.Relative));
+            }
+            catch
             {
                 MessageBox.Show("Ошибка при отправке запроса на сервер, попробуйте еще раз");
-                return;
+            }
+            finally
+            {
+
+                _busyIndicator.IsRunning = false;
+
             }
 
-            NavigationService.Navigate(new Uri("/Results.xaml?d=" + data, UriKind.Relative));
         }
 
 
-        internal static async Task<string> GetHttpPostResponse(HttpWebRequest request, byte[] requestBody)
+        internal async Task<string> GetHttpPostResponse(HttpWebRequest request, byte[] requestBody)
         {
             string received = null;
 
@@ -187,6 +205,8 @@ var uri = new Uri("http://selfiefoodweb20160228034641.azurewebsites.net/Api/Food
 
             }
 
+
+
             return received;
         }
 
@@ -204,7 +224,7 @@ var uri = new Uri("http://selfiefoodweb20160228034641.azurewebsites.net/Api/Food
             filePicker.FileTypeFilter.Add(".jpg");
 
             filePicker.PickSingleFileAndContinue();
-            _view.Activated += viewActivated; 
+            _view.Activated += viewActivated;
         }
     }
 }
